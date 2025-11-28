@@ -2,6 +2,9 @@
 target/
 .mvn/wrapper/maven-wrapper.jar
 
+# Node
+src/main/frontend/node_modules/
+
 # IntelliJ
 .idea
 *.iws
