@@ -5,8 +5,6 @@ target/
 # Frontend
 src/main/frontend/node_modules/
 src/main/resources/static/
-src/main/frontend/src/api/endpoints
-src/main/frontend/src/api/model
 
 # IntelliJ
 .idea
