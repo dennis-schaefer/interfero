@@ -1,19 +1,24 @@
 package io.interfero.frontend;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+@Slf4j
 @Controller
 @Profile("dev")
+@RequiredArgsConstructor
 class ViteDevServerRedirect
 {
-    private static final String VITE_DEV_SERVER_URL = "http://localhost:3000/";
+    private final ViteConfiguration viteConfiguration;
 
     @GetMapping("/")
     RedirectView redirectToViteDevServer()
     {
-        return new RedirectView(VITE_DEV_SERVER_URL);
+        log.debug("Redirecting to Vite Dev Server at {}", viteConfiguration.getDevServerUrl());
+        return new RedirectView(viteConfiguration.getDevServerUrl());
     }
 }

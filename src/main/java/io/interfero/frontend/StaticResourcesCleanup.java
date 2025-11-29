@@ -1,6 +1,7 @@
 package io.interfero.frontend;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -18,15 +19,19 @@ import java.nio.file.Paths;
 @Slf4j
 @Component
 @Profile("dev")
+@RequiredArgsConstructor
 class StaticResourcesCleanup
 {
-    private static final String STATIC_RESOURCES_DIRECTORY = "src/main/resources/static";
+    private final StaticResourcesConfiguration staticResourcesConfiguration;
 
     @PostConstruct
     void cleanStaticResources() throws IOException
     {
-        log.info("Cleaning static resources directory: {}", STATIC_RESOURCES_DIRECTORY);
-        var staticResourcesPath = Paths.get(STATIC_RESOURCES_DIRECTORY);
+        if (!staticResourcesConfiguration.isCleanOnStartup())
+            return;
+
+        log.info("Cleaning static resources directory: {}", staticResourcesConfiguration.getDirectory());
+        var staticResourcesPath = Paths.get(staticResourcesConfiguration.getDirectory());
 
         if (Files.exists(staticResourcesPath) && Files.isDirectory(staticResourcesPath))
             deleteDirectoryContents(staticResourcesPath);

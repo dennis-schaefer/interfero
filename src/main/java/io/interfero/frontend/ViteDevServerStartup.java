@@ -1,5 +1,6 @@
 package io.interfero.frontend;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Profile;
@@ -11,29 +12,31 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 @Profile("dev")
+@RequiredArgsConstructor
 class ViteDevServerStartup implements SmartLifecycle
 {
-    private static final String FRONTEND_DIRECTORY = "src/main/frontend";
-    private static final String STARTUP_COMMAND = "npm run dev";
-
+    private final ViteConfiguration viteConfiguration;
     private Process viteProcess;
     private boolean isRunning = false;
 
     @Override
     public void start()
     {
+        if (!viteConfiguration.isAutostartEnabled())
+            return;
+
         log.info("Starting Vite Dev Server...");
 
-        var command = new String[] {"sh", "-c", STARTUP_COMMAND};
+        var command = new String[] { "sh", "-c", viteConfiguration.getStartupCommand() };
         var isWindows = System.getProperty("os.name").toLowerCase().startsWith("win");
         if (isWindows)
-            command = new String[] {"cmd.exe", "/c", STARTUP_COMMAND};
+            command = new String[] { "cmd.exe", "/c", viteConfiguration.getStartupCommand() };
 
         try
         {
             var builder = new ProcessBuilder();
             builder.command(command);
-            builder.directory(new File(FRONTEND_DIRECTORY));
+            builder.directory(new File(viteConfiguration.getDirectory()));
             builder.inheritIO();
 
             viteProcess = builder.start();
