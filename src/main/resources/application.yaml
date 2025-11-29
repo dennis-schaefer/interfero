@@ -1,0 +1,13 @@
+spring.application.name: interfero
+springdoc:
+  swagger-ui.enabled: false
+  api-docs:
+    enabled: false
+    path: /api-docs/v3
+
+---
+logging.level:
+  org.springframework: WARN
+  org.springdoc: WARN
+  org.apache: WARN
+  com.tngtech: WARN
