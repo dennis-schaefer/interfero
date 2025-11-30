@@ -1,0 +1,21 @@
+name: Run Unit-Tests
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.0
+
+      - id: run-unit-tests
+        name: Run Integration-Tests
+        uses: ./.github/actions/integration-tests
+

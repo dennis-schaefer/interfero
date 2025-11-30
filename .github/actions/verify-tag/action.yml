@@ -1,0 +1,55 @@
+name: verify-tag
+description: Verifies that the created tag matches the version in the Maven project
+
+outputs:
+  TAG:
+    description: The extracted tag name
+    value: ${{ steps.extract-tag.outputs.TAG }}
+  IS_PROD_RELEASE:
+    description: Whether the tag is a production release version
+    value: ${{ steps.check-prod-release.outputs.IS_PROD_RELEASE }}
+
+runs:
+  using: composite
+  steps:
+    - id: setup-java
+      name: Setup Java
+      uses: ./.github/actions/java-setup
+
+    - id: maven-cache
+      name: Maven Cache
+      uses: ./.github/actions/maven-cache
+
+    - id: extract-tag
+      name: Extract tag name
+      shell: bash
+      run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - id: extract-pom-version
+      name: Extract version from pom.xml
+      shell: bash
+      run: |
+        POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "POM_VERSION=$POM_VERSION" >> $GITHUB_OUTPUT
+
+    - id: verify-tag
+      name: Verify tag matches pom.xml version
+      shell: bash
+      run: | 
+        if [ "${{ steps.extract-tag.outputs.TAG }}" != "${{ steps.extract-pom-version.outputs.POM_VERSION }}" ]; then
+          echo "Error: Tag ${{ steps.extract-tag.outputs.TAG }} does not match pom.xml version ${{ steps.extract-pom-version.outputs.POM_VERSION }}"
+          exit 1
+        fi
+        echo "Tag matches pom.xml version"
+
+    - id: check-prod-release
+      name: Check if tag is a production release version
+      shell: bash
+      run: |
+        if [[ "${{ steps.extract-tag.outputs.TAG }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "IS_PROD_RELEASE=true" >> $GITHUB_OUTPUT
+          echo "Tag ${{ steps.extract-tag.outputs.TAG }} is a production release version"
+        else
+          echo "IS_PROD_RELEASE=false" >> $GITHUB_OUTPUT
+          echo "Tag ${{ steps.extract-tag.outputs.TAG }} is NOT a production release version"
+        fi

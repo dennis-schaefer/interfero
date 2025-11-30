@@ -1,10 +1,16 @@
 spring.application.name: interfero
+---
+management:
+  server.port: 8081
+  endpoints.web:
+    base-path: /
+    exposure.include: health
+---
 springdoc:
   swagger-ui.enabled: false
   api-docs:
     enabled: false
     path: /api-docs/v3
-
 ---
 logging.level:
   org.springframework: WARN

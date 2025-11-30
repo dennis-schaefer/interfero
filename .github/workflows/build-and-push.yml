@@ -1,0 +1,21 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.0
+
+      - id: build-intefero
+        name: Build and Push Interfero Docker Image
+        uses: ./.github/actions/build-interfero
+        with:
+          docker-hub-username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          docker-hub-token: ${{ secrets.DOCKER_HUB_TOKEN }}
