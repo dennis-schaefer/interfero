@@ -7,4 +7,4 @@
     \/_____/\/_/\/_/\/__/\/____/ \/_/   \/_/ \/____/ \/_/ \/___/
 
 ${application.title} ${application.version}
-Powered by Spring Boot ${spring-boot.version}
+Runs with Spring Boot ${spring-boot.version}
