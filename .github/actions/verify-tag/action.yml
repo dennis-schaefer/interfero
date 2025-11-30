@@ -1,6 +1,14 @@
 name: verify-tag
 description: Verifies that the created tag matches the version in the Maven project
 
+outputs:
+  TAG:
+    description: The extracted tag name
+    value: ${{ steps.extract-tag.outputs.TAG }}
+  IS_PROD_RELEASE:
+    description: Whether the tag is a production release version
+    value: ${{ steps.check-prod-release.outputs.IS_PROD_RELEASE }}
+
 runs:
   using: composite
   steps:

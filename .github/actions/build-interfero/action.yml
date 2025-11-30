@@ -54,7 +54,7 @@ runs:
 
     - id: docker-build-and-push-pre-release
       name: Build and Push Docker Image (pre-release)
-      if: steps.verify-tag.outputs.IS_PROD_RELEASE == 'false'
+      if: ${{ steps.verify-tag.outputs.IS_PROD_RELEASE == 'false' }}
       uses: docker/build-push-action@v6
       with:
         context: .
@@ -65,7 +65,7 @@ runs:
 
     - id: docker-build-and-push-prod-release
       name: Build and Push Docker Image (prod-release)
-      if: steps.verify-tag.outputs.IS_PROD_RELEASE == 'true'
+      if: ${{ steps.verify-tag.outputs.IS_PROD_RELEASE == 'true' }}
       uses: docker/build-push-action@v6
       with:
         context: .
