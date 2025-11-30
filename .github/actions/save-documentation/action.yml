@@ -1,0 +1,13 @@
+name: save-documentation
+description: Saves the generated documentation artifacts
+
+runs:
+  using: composite
+  steps:
+    - id: upload-documentation
+      name: Upload Documentation Artifacts
+      uses: actions/upload-artifact@v5.0.0
+      with:
+        name: documentation
+        path: |
+          target/spring-modulith-docs
