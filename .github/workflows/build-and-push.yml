@@ -16,3 +16,6 @@ jobs:
       - id: build-intefero
         name: Build and Push Interfero Docker Image
         uses: ./.github/actions/build-interfero
+        with:
+          docker-hub-username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          docker-hub-token: ${{ secrets.DOCKER_HUB_TOKEN }}
