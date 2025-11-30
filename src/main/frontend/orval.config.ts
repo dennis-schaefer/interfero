@@ -1,7 +1,7 @@
 import { defineConfig } from 'orval';
 
 export default defineConfig({
-    todoApp: {
+    interfero: {
         input: 'http://localhost:8080/api-docs/v3',
         output: {
             mode: 'tags-split',
