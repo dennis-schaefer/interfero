@@ -1,0 +1,22 @@
+name: unit-tests
+description: Run Unit Test
+
+runs:
+  using: composite
+  steps:
+    - id: checkout-code
+      name: Checkout code
+      uses: actions/checkout@v6
+
+    - id: setup-java
+      name: Setup Java
+      uses: ./.github/actions/java-setup
+
+    - id: maven-cache
+      name: Maven Cache
+      uses: ./.github/actions/maven-cache
+
+    - id: run-unit-tests
+      name: Run Unit-Tests
+      shell: bash
+      run: mvn test --batch-mode -Dtest=*Test
