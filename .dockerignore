@@ -1,0 +1,21 @@
+# Git
+.gitignore
+.github
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# Source
+src
+
+# Documentation
+.docs
+README.md
+LICENSE
+
+# Maven
+.mvn
+mvnw
+mvnw.cmd
