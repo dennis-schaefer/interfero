@@ -44,7 +44,7 @@ runs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - id: docker-build-and-push (pre-release)
+    - id: docker-build-and-push-pre-release
       name: Build and Push Docker Image (pre-release)
       if: steps.verify-tag.outputs.IS_PROD_RELEASE == 'false'
       uses: docker/build-push-action@v6
@@ -55,7 +55,7 @@ runs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-    - id: docker-build-and-push (prod-release)
+    - id: docker-build-and-push-prod-release
       name: Build and Push Docker Image (prod-release)
       if: steps.verify-tag.outputs.IS_PROD_RELEASE == 'true'
       uses: docker/build-push-action@v6
