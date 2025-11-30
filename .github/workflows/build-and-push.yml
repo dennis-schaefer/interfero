@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  test:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
