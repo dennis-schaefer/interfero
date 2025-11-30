@@ -4,10 +4,6 @@ description: Run Unit-Tests
 runs:
   using: composite
   steps:
-    - id: checkout-code
-      name: Checkout code
-      uses: actions/checkout@v6
-
     - id: setup-java
       name: Setup Java
       uses: ./.github/actions/java-setup
