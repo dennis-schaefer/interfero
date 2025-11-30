@@ -1,0 +1,6 @@
+interfero.database:
+  enabled: true
+  vendor: timescaledb
+  url: jdbc:postgresql://localhost:5433/interfero
+  username: admin
+  password: secret

@@ -1,0 +1,6 @@
+interfero.database:
+  enabled: true
+  vendor: postgres
+  url: jdbc:postgresql://localhost:5432/interfero
+  username: admin
+  password: secret
