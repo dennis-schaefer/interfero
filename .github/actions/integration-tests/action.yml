@@ -1,5 +1,5 @@
-name: unit-tests
-description: Run Unit-Tests
+name: integration-tests
+description: Run Integration-Tests
 
 runs:
   using: composite
@@ -16,7 +16,7 @@ runs:
       name: Maven Cache
       uses: ./.github/actions/maven-cache
 
-    - id: run-unit-tests
-      name: Run Unit-Tests
+    - id: run-integration-tests
+      name: Run Integration-Tests
       shell: bash
-      run: mvn test --batch-mode -Dtest=*Test
+      run: mvn test --batch-mode -Dtest=*IT
