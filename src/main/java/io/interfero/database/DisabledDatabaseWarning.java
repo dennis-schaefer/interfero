@@ -2,26 +2,17 @@ package io.interfero.database;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 
 @Slf4j
 @Component
+@ConditionalOnProperty(name = "interfero.database.enabled", havingValue = "false")
 class DisabledDatabaseWarning
 {
-    private final DataSource dataSource;
-
-    DisabledDatabaseWarning(@Autowired(required = false) DataSource dataSource)
-    {
-        this.dataSource = dataSource;
-    }
-
     @PostConstruct
-    public void warnIfDatabaseDisabled()
+    public void warnThatDatabaseDisabled()
     {
-        if (dataSource == null)
-            log.warn("No database configured! Interfero will run in a limited mode without persistence.");
+        log.warn("No database configured! Interfero will run in a limited mode without persistence.");
     }
 }
