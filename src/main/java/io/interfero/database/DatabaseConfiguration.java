@@ -18,9 +18,7 @@ import javax.sql.DataSource;
 @Slf4j
 @Configuration
 @ConditionalOnProperty(name = "interfero.database.enabled", havingValue = "true")
-@Import({
-        DataSourceTransactionManagerAutoConfiguration.class,
-})
+@Import(DataSourceTransactionManagerAutoConfiguration.class)
 class DatabaseConfiguration
 {
     @Value("${interfero.database.vendor}")
