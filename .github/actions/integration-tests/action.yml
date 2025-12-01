@@ -35,8 +35,8 @@ runs:
       shell: bash
       run: |
         echo "INTERFERO_DATABASE_VENDOR=${{ inputs.database-vendor }}" >> .testcontainers.env
-        echo "INTERFERO_POSTGRES_VERSION=${{ inputs.postgres-version }}" >> .testcontainers.env
-        echo "INTERFERO_TIMESCALEDB_VERSION=${{ inputs.timescaledb-version }}" >> .testcontainers.env
+        echo "TIMESCALEDB_VERSION=${{ inputs.postgres-version }}" >> .testcontainers.env
+        echo "TIMESCALEDB_VERSION=${{ inputs.timescaledb-version }}" >> .testcontainers.env
         cat .testcontainers.env
 
     - id: run-integration-tests
