@@ -1,4 +1,6 @@
 name: Run Integration-Tests
+permissions:
+  contents: read
 
 on:
   push:
@@ -8,14 +10,29 @@ on:
   workflow_call:
 
 jobs:
-  test:
+  postgres-integration-tests:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v6.0.0
 
-      - id: run-unit-tests
-        name: Run Integration-Tests
+      - id: run-integration-tests_pg_17-7
+        name: Run Integration-Tests (Postgres 17.7)
         uses: ./.github/actions/integration-tests
+        with:
+          database-vendor: 'postgres'
+          postgres-version: '17.7'
+
+  timescaledb-integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.0
+
+      - id: run-integration-tests_tsdb_2-23-1-pg17
+        name: Run Integration-Tests (TimescaleDB 2.23.1-pg17)
+        uses: ./.github/actions/integration-tests
+        with:
+          database-vendor: 'timescaledb'
+          postgres-version: '2.23.1-pg17'
 

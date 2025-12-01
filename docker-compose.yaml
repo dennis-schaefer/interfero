@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:${POSTGRES_VERSION}
+    container_name: interfero-dev-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - interfero-dev-postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: interfero
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  timescaledb:
+    image: timescale/timescaledb:${TIMESCALEDB_VERSION}
+    container_name: interfero-dev-timescaledb
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: interfero
+      POSTGRES_USER: ${TIMESCALEDB_USER}
+      POSTGRES_PASSWORD: ${TIMESCALEDB_PASSWORD}
+    volumes:
+      - interfero-dev-timescaledb-data:/home/postgres/pgdata/data
+
+volumes:
+  interfero-dev-postgres-data:
+  interfero-dev-timescaledb-data:

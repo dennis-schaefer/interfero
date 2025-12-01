@@ -1,6 +1,20 @@
 name: integration-tests
 description: Run Integration-Tests
 
+inputs:
+  database-vendor:
+    description: Database vendor to use for integration tests (Testcontainers)
+    required: false
+    default: postgres
+  postgres-version:
+    description: Postgres version to use for integration tests (Testcontainers)
+    required: false
+    default: "17.0"
+  timescaledb-version:
+    description: TimescaleDB version to use for integration tests (Testcontainers)
+    required: false
+    default: "2.23.1-pg17"
+
 runs:
   using: composite
   steps:
@@ -15,6 +29,15 @@ runs:
     - id: maven-cache
       name: Maven Cache
       uses: ./.github/actions/maven-cache
+
+    - id: setup-environment-variables
+      name: Setup Environment Variables
+      shell: bash
+      run: |
+        echo "INTERFERO_DATABASE_VENDOR=${{ inputs.database-vendor }}" >> .testcontainers.env
+        echo "POSTGRES_VERSION=${{ inputs.postgres-version }}" >> .testcontainers.env
+        echo "TIMESCALEDB_VERSION=${{ inputs.timescaledb-version }}" >> .testcontainers.env
+        cat .testcontainers.env
 
     - id: run-integration-tests
       name: Run Integration-Tests

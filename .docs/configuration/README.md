@@ -1,5 +1,18 @@
 # Configuration 
 
+## Database Settings
+Properties for configuring a database connection to persist data. A database is optional but recommended for production 
+deployments. 
+Property prefix for the following properties: `interfero.database.`
+
+| Property   | Type    | Default    | Description                                                               |
+|------------|---------|------------|---------------------------------------------------------------------------|
+| `enabled`  | boolean | `false`    | Whether to enable database persistence.                                   |
+| `vendor`   | String  | `postgres` | The database vendor. Currently `postgres` and `timescaledb` are supported |
+| `url`      | String  | -          | The JDBC URL for the database connection.                                 |
+| `username` | String  | -          | The username for the database connection.                                 |
+| `password` | String  | -          | The password for the database connection.                                 |
+
 ## Frontend Development
 Properties for configuring frontend development settings.  
 Property prefix for the following properties: `interfero.frontend.`

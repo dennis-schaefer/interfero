@@ -1,5 +1,10 @@
 spring.application.name: interfero
 ---
+interfero.database:
+  enabled: false
+  vendor: postgres
+  driver-class-name: org.postgresql.Driver
+---
 management:
   server.port: 8081
   endpoints.web:
@@ -17,3 +22,4 @@ logging.level:
   org.springdoc: WARN
   org.apache: WARN
   com.tngtech: WARN
+  com.zaxxer: WARN
