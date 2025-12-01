@@ -15,14 +15,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6.0.0
 
-      - id: run-integration-tests_pg17.7
+      - id: run-integration-tests_pg_17-7
         name: Run Integration-Tests (Postgres 17.7)
         uses: ./.github/actions/integration-tests
         with:
           database-vendor: 'postgres'
           postgres-version: '17.7'
 
-      - id: run-integration-tests_tsdb-2.23.1-pg17
+      - id: run-integration-tests_tsdb_2-23-1-pg17
         name: Run Integration-Tests (TimescaleDB 2.23.1-pg17)
         uses: ./.github/actions/integration-tests
         with:
