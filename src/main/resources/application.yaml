@@ -9,7 +9,11 @@ management:
   server.port: 8081
   endpoints.web:
     base-path: /
-    exposure.include: health
+    exposure.include: health,prometheus
+    path-mapping:
+      prometheus: metrics
+  metrics.tags:
+    application: ${spring.application.name}
 ---
 springdoc:
   swagger-ui.enabled: false
