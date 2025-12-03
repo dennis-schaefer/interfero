@@ -7,13 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.boot.liquibase.autoconfigure.LiquibaseAutoConfiguration;
+import org.springframework.boot.pulsar.autoconfigure.PulsarAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication(exclude = {
         DataSourceAutoConfiguration.class,
-        LiquibaseAutoConfiguration.class
+        LiquibaseAutoConfiguration.class,
+        PulsarAutoConfiguration.class
 })
 @EnableConfigurationProperties(value = {
         ViteConfiguration.class,
@@ -33,7 +35,7 @@ public class InterferoApplication
         @GetMapping
         public String hello()
         {
-            return "Hello Intefero! 🌊";
+            return "Hello Interfero! 🌊";
         }
     }
 }
