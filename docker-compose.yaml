@@ -23,6 +23,32 @@ services:
     volumes:
       - interfero-dev-timescaledb-data:/home/postgres/pgdata/data
 
+  pulsar-cluster-a:
+    image: apachepulsar/pulsar-all:${PULSAR_VERSION}
+    container_name: interfero-dev-pulsar-a
+    command: bin/pulsar standalone
+    ports:
+      - "16650:6650"
+      - "18080:8080"
+    environment:
+      PULSAR_STANDALONE_USE_ZOOKEEPER: 1
+    volumes:
+      - interfero-dev-pulsar-a-data:/pulsar/data
+
+  pulsar-cluster-b:
+    image: apachepulsar/pulsar-all:${PULSAR_VERSION}
+    container_name: interfero-dev-pulsar-b
+    command: bin/pulsar standalone
+    ports:
+      - "26650:6650"
+      - "28080:8080"
+    environment:
+      PULSAR_STANDALONE_USE_ZOOKEEPER: 1
+    volumes:
+      - interfero-dev-pulsar-b-data:/pulsar/data
+
 volumes:
   interfero-dev-postgres-data:
   interfero-dev-timescaledb-data:
+  interfero-dev-pulsar-a-data:
+  interfero-dev-pulsar-b-data:
