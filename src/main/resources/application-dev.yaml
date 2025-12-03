@@ -1,3 +1,11 @@
+interfero.pulsar.clusters:
+  cluster-a:
+    client.service-url: http://localhost:16650
+    admin.service-url: http://localhost:18080
+  cluster-b:
+    client.service-url: http://localhost:26650
+    admin.service-url: http://localhost:28080
+---
 springdoc:
   api-docs.enabled: true
   swagger-ui.enabled: true
