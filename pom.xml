@@ -11,7 +11,7 @@
 
     <groupId>io.interfero</groupId>
     <artifactId>interfero</artifactId>
-    <version>0.1.0.dev002</version>
+    <version>0.1.0.dev003</version>
     <name>Interfero</name>
     <description>Interfero is a tool to manage and observe Apache Pulsar clusters</description>
 
