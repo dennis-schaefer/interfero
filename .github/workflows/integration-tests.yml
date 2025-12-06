@@ -16,12 +16,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6.0.0
 
-      - id: run-integration-tests_pg_17-7
-        name: Run Integration-Tests (Postgres 17.7)
+      - id: run-integration-tests_pg_18-1
+        name: Run Integration-Tests (Postgres 18.1)
         uses: ./.github/actions/integration-tests
         with:
           database-vendor: 'postgres'
-          postgres-version: '17.7'
+          postgres-version: '18.1'
 
   timescaledb-integration-tests:
     runs-on: ubuntu-latest
@@ -29,10 +29,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6.0.0
 
-      - id: run-integration-tests_tsdb_2-23-1-pg17
-        name: Run Integration-Tests (TimescaleDB 2.23.1-pg17)
+      - id: run-integration-tests_tsdb_2-24-0-pg18
+        name: Run Integration-Tests (TimescaleDB 2.24.0-pg18)
         uses: ./.github/actions/integration-tests
         with:
           database-vendor: 'timescaledb'
-          postgres-version: '2.23.1-pg17'
+          postgres-version: '2.24.0-pg18'
 
