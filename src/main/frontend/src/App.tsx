@@ -1,16 +1,25 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import DashboardView from "./dashboard/dashboard-view.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import {AuthProvider} from "./features/security/AuthProvider.tsx";
+import {ProtectedRoute} from "./features/security/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <DashboardView/>,
+        element: <ProtectedRoute><DashboardView/></ProtectedRoute>,
+    },
+    {
+        path: "/login",
+        element: <LoginPage/>
     }
 ]);
 
 export default function App() {
-  return (
-      <RouterProvider router={router}/>
-  )
+    return (
+        <AuthProvider>
+            <RouterProvider router={router}/>
+        </AuthProvider>
+    )
 }
 
