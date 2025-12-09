@@ -1,4 +1,5 @@
 spring.application.name: interfero
+server.port: 8080
 ---
 interfero.database:
   enabled: false

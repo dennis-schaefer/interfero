@@ -15,7 +15,7 @@ public class ViteConfiguration
     public ViteConfiguration(Boolean autostartEnabled, String devServerUrl, String directory, String startupCommand)
     {
         this.autostartEnabled = autostartEnabled == null || autostartEnabled;
-        this.devServerUrl = devServerUrl == null ? "http://localhost:3000/" : devServerUrl;
+        this.devServerUrl = devServerUrl == null ? "http://localhost:3000" : devServerUrl;
         this.directory = directory == null ? "src/main/frontend" : directory;
         this.startupCommand = startupCommand == null ? "npm run dev" : startupCommand;
     }

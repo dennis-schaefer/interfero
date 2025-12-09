@@ -5,4 +5,7 @@
  * OpenAPI spec version: v0
  */
 
-export * from './accountInfo';
+export interface AccountInfo {
+  username?: string;
+  roles?: string[];
+}
