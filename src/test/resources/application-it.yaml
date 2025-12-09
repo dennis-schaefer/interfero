@@ -1,3 +1,6 @@
 interfero.database:
   enabled: true
+---
+interfero.admin.account:
+  password: $2a$10$j8IVVWqSN42yYnSyGEv2senTmirCZRcIm0kp7EzsSarxgc2Xf9YDe # secret
 
