@@ -1,5 +1,5 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import DashboardView from "./dashboard/dashboard-view.tsx";
+import DashboardView from "./pages/DashboardPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import {AuthProvider} from "./features/security/AuthProvider.tsx";
 import {ProtectedRoute} from "./features/security/ProtectedRoute.tsx";
