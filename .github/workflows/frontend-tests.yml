@@ -1,0 +1,23 @@
+name: Run Frontend-Tests
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.0
+
+      - id: run-frontend-tests
+        name: Run Frontend-Tests
+        uses: ./.github/actions/frontend-tests
