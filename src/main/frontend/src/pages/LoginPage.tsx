@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,6 +7,8 @@ import {Field, FieldError, FieldGroup, FieldLabel, FieldSet} from "../components
 import {Button} from "../components/ui/button.tsx";
 import {Card, CardContent} from "../components/ui/card.tsx";
 import {Input} from "../components/ui/input.tsx";
+import {useAuth} from "../features/security/AuthContext.tsx";
+import {Spinner} from "../components/ui/spinner.tsx";
 
 const loginSchema = z.object({
     username: z.string().min(1, "Username is required"),
@@ -18,6 +20,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
     const loginErrorMessage = "Login failed. Please check your credentials and try again.";
 
+    const { isAuthenticated, loading } = useAuth();
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -28,6 +31,12 @@ export default function LoginPage() {
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
     });
+
+    useEffect(() => {
+        if (!loading && isAuthenticated) {
+            window.location.href = "/";
+        }
+    }, [isAuthenticated, loading]);
 
     const onSubmit = async (data: LoginFormData) => {
         setIsSubmitting(true);
@@ -59,40 +68,50 @@ export default function LoginPage() {
     };
 
     return (
-        <div className={"grid h-screen w-screen place-items-center"}>
-            <Card className="w-full max-w-sm">
-                <CardContent>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <FieldSet>
-                            <FieldGroup>
-                                <Field>
-                                    <FieldLabel htmlFor={"username"}>Username</FieldLabel>
-                                    <Input id={"username"}
-                                           type={"text"}
-                                           placeholder={"Enter username here"}
-                                           disabled={isSubmitting}
-                                           {...register("username")}/>
-                                    { errors.username && <FieldError>{errors.username.message}</FieldError> }
-                                </Field>
-                                <Field>
-                                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                                    <Input id={"password"}
-                                           type="password"
-                                           placeholder={"Enter password here"}
-                                           disabled={isSubmitting}
-                                           {...register("password")}/>
-                                    { errors.password && <FieldError>{errors.password.message}</FieldError> }
-                                    { error && <FieldError>{error}</FieldError> }
-                                </Field>
-                            </FieldGroup>
+        <>
+            { loading && (
+                <div className={"w-full h-full absolute flex justify-center items-center"}>
+                    <Spinner className={"size-10"} />
+                </div>
+            )}
 
-                            <Button type="submit" className="w-full" disabled={isSubmitting}>
-                                {isSubmitting ? "Signing in..." : "Sign In"}
-                            </Button>
-                        </FieldSet>
-                    </form>
-                </CardContent>
-            </Card>
-        </div>
+            {!loading && !isAuthenticated && (
+                <div className={"grid h-screen w-screen place-items-center"}>
+                    <Card className="w-full max-w-sm">
+                        <CardContent>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <FieldSet>
+                                    <FieldGroup>
+                                        <Field>
+                                            <FieldLabel htmlFor={"username"}>Username</FieldLabel>
+                                            <Input id={"username"}
+                                                   type={"text"}
+                                                   placeholder={"Enter username here"}
+                                                   disabled={isSubmitting}
+                                                   {...register("username")}/>
+                                            { errors.username && <FieldError>{errors.username.message}</FieldError> }
+                                        </Field>
+                                        <Field>
+                                            <FieldLabel htmlFor="password">Password</FieldLabel>
+                                            <Input id={"password"}
+                                                   type="password"
+                                                   placeholder={"Enter password here"}
+                                                   disabled={isSubmitting}
+                                                   {...register("password")}/>
+                                            { errors.password && <FieldError>{errors.password.message}</FieldError> }
+                                            { error && <FieldError>{error}</FieldError> }
+                                        </Field>
+                                    </FieldGroup>
+
+                                    <Button type="submit" className="w-full" disabled={isSubmitting}>
+                                        {isSubmitting ? "Signing in..." : "Sign In"}
+                                    </Button>
+                                </FieldSet>
+                            </form>
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
+        </>
     );
 }
