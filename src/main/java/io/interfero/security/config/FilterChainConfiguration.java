@@ -37,7 +37,6 @@ class FilterChainConfiguration
         http
                 .securityMatcher(request -> request.getLocalPort() == serverPort &&
                         request.getServletPath().startsWith("/api"))
-                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api-docs/v3").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
@@ -48,16 +47,19 @@ class FilterChainConfiguration
     @Bean
     @Order(2)
     @Profile("dev")
-    SecurityFilterChain devFrontendSecurityFilterChain(HttpSecurity http, @Value("${server.port}") Integer serverPort)
+    SecurityFilterChain devFrontendSecurityFilterChain(HttpSecurity http, @Value("${server.port}") Integer serverPort,
+                                                        DevAuthenticationSuccessHandler devAuthenticationSuccessHandler)
     {
         http
                 .securityMatcher(request -> request.getLocalPort() == serverPort &&
                         !request.getServletPath().startsWith("/api"))
-                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/", "/login").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .formLogin(login -> login.loginPage("/login").permitAll())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .successHandler(devAuthenticationSuccessHandler)
+                        .permitAll())
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
