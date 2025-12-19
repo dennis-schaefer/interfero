@@ -21,26 +21,34 @@ export default function LoginPage() {
     const loginErrorMessage = "Login failed. Please check your credentials and try again.";
 
     const { isAuthenticated, loading } = useAuth();
-    const [error, setError] = useState<string | null>(null);
+    const [loginError, setLoginError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<LoginFormData>({
+    const {register, handleSubmit, formState: { errors }, setValue, setFocus} = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
     });
 
+    const handleLoginError = () => {
+        setLoginError(loginErrorMessage);
+        setValue("password", "");
+        setTimeout(() => {
+            setFocus("password");
+        }, 10);
+    }
+
     useEffect(() => {
-        if (!loading && isAuthenticated) {
+        if (!loading && isAuthenticated)
             window.location.href = "/";
-        }
     }, [isAuthenticated, loading]);
+
+    useEffect(() => {
+        if (!loading && !isAuthenticated)
+            setFocus("username");
+    }, [loading, isAuthenticated, setFocus]);
+
 
     const onSubmit = async (data: LoginFormData) => {
         setIsSubmitting(true);
-        setError(null);
 
         try {
             const formData = new URLSearchParams();
@@ -55,13 +63,14 @@ export default function LoginPage() {
             });
 
             if (response.status === 200 && response.data.success) {
+                setLoginError(null);
                 window.location.href = "/";
                 return;
             }
 
-            setError(loginErrorMessage);
+            handleLoginError();
         } catch (err) {
-            setError(loginErrorMessage);
+            handleLoginError();
         } finally {
             setIsSubmitting(false);
         }
@@ -99,7 +108,7 @@ export default function LoginPage() {
                                                    disabled={isSubmitting}
                                                    {...register("password")}/>
                                             { errors.password && <FieldError>{errors.password.message}</FieldError> }
-                                            { error && <FieldError>{error}</FieldError> }
+                                            { loginError && <FieldError>{loginError}</FieldError> }
                                         </Field>
                                     </FieldGroup>
 
