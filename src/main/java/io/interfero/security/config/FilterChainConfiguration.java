@@ -18,13 +18,45 @@ import org.springframework.security.web.SecurityFilterChain;
 class FilterChainConfiguration
 {
     @Bean
-    @Order(2)
+    @Order(3)
     @Profile("!dev")
-    SecurityFilterChain prodSecurityFilterChain(HttpSecurity http, @Value("${server.port}") Integer serverPort)
+    SecurityFilterChain prodApiSecurityFilterChain(HttpSecurity http, @Value("${server.port}") Integer serverPort)
     {
         http
-                .securityMatcher(request -> request.getLocalPort() == serverPort)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
+                .securityMatcher(request -> request.getLocalPort() == serverPort &&
+                        request.getServletPath().startsWith("/api"))
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .permitAll())
+                .logout(LogoutConfigurer::permitAll);
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    @Profile("!dev")
+    SecurityFilterChain prodFrontendSecurityFilterChain(HttpSecurity http, @Value("${server.port}") Integer serverPort)
+    {
+        http
+                .securityMatcher(request -> request.getLocalPort() == serverPort &&
+                        !request.getServletPath().startsWith("/api"))
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .successHandler((_request, response, _authentication) -> {
+                            response.setStatus(200);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"success\": true}");
+                        })
+                        .failureHandler((_request, response, exception) -> {
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"success\": false, \"error\": \"" + exception.getMessage() + "\"}");
+                        })
+                        .permitAll())
+                .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }
