@@ -1,5 +1,14 @@
 # Configuration 
 
+## Administration Settings
+Properties for configuring administration settings.  
+Property prefix for the following properties: `interfero.admin.`
+
+| Property           | Type   | Default | Description                                            |
+|--------------------|--------|---------|--------------------------------------------------------|
+| `account.username` | String | `admin` | The username for the administrator account.            |
+| `account.password` | String | -       | BCrypt encoded password for the administrator account. |
+
 ## Database Settings
 Properties for configuring a database connection to persist data. A database is optional but recommended for production 
 deployments. 

@@ -1,0 +1,25 @@
+name: frontend-tests
+description: Run Frontend-Tests
+
+runs:
+  using: composite
+  steps:
+    - id: setup-node
+      name: Setup Node.js
+      uses: actions/setup-node@v6.1.0
+      with:
+        node-version: '24'
+        cache: 'npm'
+        cache-dependency-path: src/main/frontend/package-lock.json
+
+    - id: install-dependencies
+      name: Install Dependencies
+      shell: bash
+      working-directory: src/main/frontend
+      run: npm ci
+
+    - id: run-tests
+      name: Run Frontend Tests
+      shell: bash
+      working-directory: src/main/frontend
+      run: npm run test:run
