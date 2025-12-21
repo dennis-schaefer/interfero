@@ -1,6 +1,6 @@
 import {useHello} from "../api/endpoints/hello-controller/hello-controller.ts";
 
-export default function DashboardView() {
+export default function DashboardPage() {
 
     const { data, isLoading } = useHello();
 
