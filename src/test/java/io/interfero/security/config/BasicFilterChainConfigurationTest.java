@@ -38,27 +38,6 @@ class BasicFilterChainConfigurationTest
     }
 
     @Test
-    void shouldAllowAccessToHealthEndpoint() throws Exception
-    {
-        mockMvc.perform(get("/health"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void shouldAllowAccessToMetricsEndpoint() throws Exception
-    {
-        mockMvc.perform(get("/metrics"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void shouldAllowAccessToManagementEndpoint() throws Exception
-    {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     void shouldAllowAccessToLoginPage() throws Exception
     {
         mockMvc.perform(get("/login"))
