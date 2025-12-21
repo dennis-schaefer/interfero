@@ -12,15 +12,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@base-ui/react": "^1.0.0",
+    "@fontsource-variable/figtree": "^5.2.10",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/react-query": "^5.90.11",
     "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.555.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "lucide-react": "^0.562.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-router-dom": "^7.9.6",
+    "shadcn": "^3.6.2",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17"
   },

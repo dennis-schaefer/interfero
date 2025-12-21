@@ -1,10 +1,10 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import DashboardView from "./dashboard/dashboard-view.tsx";
+import DashboardPage from "./pages/DashboardPage.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <DashboardView/>,
+        element: <DashboardPage/>,
     }
 ]);
 
