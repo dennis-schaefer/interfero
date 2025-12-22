@@ -1,6 +1,7 @@
 package io.interfero.security.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +11,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Slf4j
 @Configuration
+@EnableConfigurationProperties(AdminAccountConfiguration.class)
 class UserDetailsConfiguration
 {
     @Bean
