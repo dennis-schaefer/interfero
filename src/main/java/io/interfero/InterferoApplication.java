@@ -2,6 +2,7 @@ package io.interfero;
 
 import io.interfero.frontend.StaticResourcesConfiguration;
 import io.interfero.frontend.ViteConfiguration;
+import io.interfero.security.config.AdminAccountConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 })
 @EnableConfigurationProperties(value = {
         ViteConfiguration.class,
-        StaticResourcesConfiguration.class
+        StaticResourcesConfiguration.class,
+        AdminAccountConfiguration.class
 })
 public class InterferoApplication
 {

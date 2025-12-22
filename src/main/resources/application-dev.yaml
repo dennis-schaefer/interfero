@@ -6,6 +6,8 @@ interfero.pulsar.clusters:
     client.service-url: http://localhost:26650
     admin.service-url: http://localhost:28080
 ---
+interfero.admin.account.password: $2a$12$Vsho9XvQ.BtnuU72PgRGN.R0ObbM7P4KRDfOlmWhAWiC2AN/NDqE6 # secret
+---
 springdoc:
   api-docs.enabled: true
   swagger-ui.enabled: true

@@ -13,6 +13,15 @@ Property prefix for the following properties: `interfero.database.`
 | `username` | String  | -          | The username for the database connection.                                 |
 | `password` | String  | -          | The password for the database connection.                                 |
 
+## Administration Settings
+Properties for configuring administration settings.  
+Property prefix for the following properties: `interfero.admin.`
+
+| Property           | Type   | Default | Description                                            |
+|--------------------|--------|---------|--------------------------------------------------------|
+| `account.username` | String | `admin` | The username for the administrator account.            |
+| `account.password` | String | -       | BCrypt encoded password for the administrator account. |
+
 ## Frontend Development
 Properties for configuring frontend development settings.  
 Property prefix for the following properties: `interfero.frontend.`
