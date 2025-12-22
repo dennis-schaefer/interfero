@@ -45,5 +45,10 @@ class UserDetailsConfigurationIT
         assertThat(userDetails).isNotNull();
         assertThat(userDetails.getUsername()).isEqualTo(ADMIN_USERNAME);
         assertThat(passwordEncoder.matches("secret", userDetails.getPassword())).isTrue();
+        assertThat(userDetails.getAuthorities()).extracting("authority").containsExactly("ROLE_ADMIN");
+        assertThat(userDetails.isEnabled()).isTrue();
+        assertThat(userDetails.isAccountNonExpired()).isTrue();
+        assertThat(userDetails.isAccountNonLocked()).isTrue();
+        assertThat(userDetails.isCredentialsNonExpired()).isTrue();
     }
 }
