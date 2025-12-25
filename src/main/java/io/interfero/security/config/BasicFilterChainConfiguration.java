@@ -36,7 +36,8 @@ class BasicFilterChainConfiguration
     SecurityFilterChain apiSecurityFilterChain(HttpSecurity http)
     {
         http
-                .securityMatcher(req -> req.getPathInfo().startsWith("/api"))
+                .securityMatcher(req -> req.getRequestURI().startsWith("/api"))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api-docs/v3").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/account-info").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().fullyAuthenticated());
 
@@ -48,7 +49,7 @@ class BasicFilterChainConfiguration
     SecurityFilterChain frontendSecurityFilterChain(HttpSecurity http)
     {
         http
-                .securityMatcher(req -> !req.getPathInfo().startsWith("/api"))
+                .securityMatcher(req -> !req.getRequestURI().startsWith("/api"))
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .logout(LogoutConfigurer::permitAll);

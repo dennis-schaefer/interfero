@@ -47,6 +47,13 @@ class BasicFilterChainConfigurationIT
     }
 
     @Test
+    void shouldAllowAccessToApiDocs() throws Exception
+    {
+        mockMvc.perform(get("/api-docs/v3"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void shouldDenyAccessToProtectedResource() throws Exception
     {
         mockMvc.perform(get("/api/hello"))
