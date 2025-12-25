@@ -19,7 +19,8 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
-import { customInstance } from '../../axios-client';
+import { axiosInstance } from '../axios-client';
+
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -28,11 +29,11 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 export const hello = (
     
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+ options?: SecondParameter<typeof axiosInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<string>(
+      return axiosInstance<string>(
       {url: `/api/hello`, method: 'GET', signal
     },
       options);
@@ -48,7 +49,7 @@ export const getHelloQueryKey = () => {
     }
 
     
-export const getHelloQueryOptions = <TData = Awaited<ReturnType<typeof hello>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getHelloQueryOptions = <TData = Awaited<ReturnType<typeof hello>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>>, request?: SecondParameter<typeof axiosInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -77,7 +78,7 @@ export function useHello<TData = Awaited<ReturnType<typeof hello>>, TError = unk
           TError,
           Awaited<ReturnType<typeof hello>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof axiosInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useHello<TData = Awaited<ReturnType<typeof hello>>, TError = unknown>(
@@ -87,16 +88,16 @@ export function useHello<TData = Awaited<ReturnType<typeof hello>>, TError = unk
           TError,
           Awaited<ReturnType<typeof hello>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+      >, request?: SecondParameter<typeof axiosInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useHello<TData = Awaited<ReturnType<typeof hello>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>>, request?: SecondParameter<typeof axiosInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useHello<TData = Awaited<ReturnType<typeof hello>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>>, request?: SecondParameter<typeof axiosInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
