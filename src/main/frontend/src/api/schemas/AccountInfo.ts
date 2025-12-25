@@ -5,3 +5,8 @@
  * OpenAPI spec version: v0
  */
 
+export interface AccountInfo {
+  username?: string;
+  roles?: string[];
+  authenticated?: boolean;
+}

@@ -1,4 +1,4 @@
-import {useHello} from "../api/endpoints/hello-controller/hello-controller.ts";
+import {useHello} from "@/api/endpoints/hello-controller.ts";
 
 export default function DashboardPage() {
 
