@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ActiveProfiles({"it", "db-disabled"})
-class BasicFilterChainConfigurationTest
+class BasicFilterChainConfigurationIT
 {
     @Autowired
     private WebApplicationContext context;
