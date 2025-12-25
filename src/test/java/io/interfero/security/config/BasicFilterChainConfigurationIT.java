@@ -50,7 +50,7 @@ class BasicFilterChainConfigurationIT
     void shouldDenyAccessToProtectedResource() throws Exception
     {
         mockMvc.perform(get("/api/hello"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().isForbidden());
     }
 
     @Test
