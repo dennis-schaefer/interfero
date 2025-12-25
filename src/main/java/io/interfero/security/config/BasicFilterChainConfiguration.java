@@ -33,10 +33,22 @@ class BasicFilterChainConfiguration
 
     @Bean
     @Order(2)
-    SecurityFilterChain applicationSecurityFilterChain(HttpSecurity http)
+    SecurityFilterChain apiSecurityFilterChain(HttpSecurity http)
     {
         http
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api-docs/v3").permitAll())
+                .securityMatcher(req -> req.getPathInfo().startsWith("/api"))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/account-info").permitAll())
+                .authorizeHttpRequests(auth -> auth.anyRequest().fullyAuthenticated());
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(3)
+    SecurityFilterChain frontendSecurityFilterChain(HttpSecurity http)
+    {
+        http
+                .securityMatcher(req -> !req.getPathInfo().startsWith("/api"))
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .logout(LogoutConfigurer::permitAll);

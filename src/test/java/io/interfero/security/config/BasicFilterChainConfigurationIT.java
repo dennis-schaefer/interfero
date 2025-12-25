@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ActiveProfiles({"it", "db-disabled"})
-class BasicFilterChainConfigurationTest
+class BasicFilterChainConfigurationIT
 {
     @Autowired
     private WebApplicationContext context;
@@ -50,7 +50,7 @@ class BasicFilterChainConfigurationTest
     void shouldDenyAccessToProtectedResource() throws Exception
     {
         mockMvc.perform(get("/api/hello"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().isForbidden());
     }
 
     @Test
