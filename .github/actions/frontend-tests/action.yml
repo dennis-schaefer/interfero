@@ -22,4 +22,4 @@ runs:
       name: Run Frontend Tests
       shell: bash
       working-directory: src/main/frontend
-      run: npm run test:run
+      run: npm run test:ui
