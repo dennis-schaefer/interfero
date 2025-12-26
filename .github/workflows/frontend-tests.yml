@@ -1,4 +1,6 @@
-name: Run Unit-Tests
+name: Frontend-Tests
+permissions:
+  contents: read
 
 on:
   push:
@@ -9,14 +11,13 @@ on:
   workflow_call:
 
 jobs:
-  unit-tests:
+  frontend-tests:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v6.0.0
 
-      - id: run-unit-tests
-        name: Run Unit-Tests
-        uses: ./.github/actions/unit-tests
-
+      - id: run-frontend-tests
+        name: Run Frontend-Tests
+        uses: ./.github/actions/frontend-tests
