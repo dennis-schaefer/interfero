@@ -27,7 +27,7 @@ public class AccountInfoService
     {
         if (auth == null || !auth.isAuthenticated() || auth.getPrincipal() == null)
         {
-            log.debug("No authenticated user found, returning anonymous account");
+            log.trace("No authenticated user found, returning anonymous account");
             return AccountInfo.anonymous();
         }
 
