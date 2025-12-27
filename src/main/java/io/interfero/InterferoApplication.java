@@ -25,7 +25,9 @@ public class InterferoApplication
 {
     static void main(String[] args)
     {
-        SpringApplication.run(InterferoApplication.class, args);
+        var application =new SpringApplication(InterferoApplication.class);
+        application.setAdditionalProfiles("default");
+        application.run(args);
     }
 
     @RestController

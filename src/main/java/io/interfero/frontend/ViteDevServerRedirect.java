@@ -21,4 +21,11 @@ class ViteDevServerRedirect
         log.debug("Redirecting to Vite Dev Server at {}", viteConfiguration.getDevServerUrl());
         return new RedirectView(viteConfiguration.getDevServerUrl());
     }
+
+    @GetMapping("/login")
+    RedirectView redirectToViteDevServerLoginPage()
+    {
+        log.debug("Redirecting to Vite Dev Server login page at {}/login", viteConfiguration.getDevServerUrl());
+        return new RedirectView(viteConfiguration.getDevServerUrl() + "/login");
+    }
 }

@@ -62,7 +62,7 @@ describe('AuthContext', () => {
 
   describe('AuthContext creation', () => {
     it('should create a Context with undefined as default value', () => {
-      expect(AuthContext._currentValue).toBeUndefined();
+      expect(AuthContext.name).toBeUndefined();
     });
   });
 });

@@ -1,4 +1,4 @@
-package io.interfero.security.config;
+package io.interfero.security.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,14 +9,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles({"it", "db-disabled"})
-class BasicFilterChainConfigurationIT
+class CsrfControllerIT
 {
     @Autowired
     private WebApplicationContext context;
@@ -24,7 +25,7 @@ class BasicFilterChainConfigurationIT
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setup()
+    void setUp()
     {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
@@ -33,23 +34,14 @@ class BasicFilterChainConfigurationIT
     }
 
     @Test
-    void shouldRedirectOnLogout() throws Exception
+    void shouldReturnCsrfTokenAsCookie() throws Exception
     {
-        mockMvc.perform(get("/logout"))
-                .andExpect(status().is3xxRedirection());
-    }
-
-    @Test
-    void shouldDenyAccessToProtectedResource() throws Exception
-    {
-        mockMvc.perform(get("/api/hello"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void shouldAllowAccessToProtectedResourceWhenAuthenticated() throws Exception
-    {
-        mockMvc.perform(get("/api/hello").with(user("testuser")))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/csrf"))
+                .andExpect(status().isOk())
+                .andExpect(cookie().exists("XSRF-TOKEN"))
+                .andExpect(cookie().path("XSRF-TOKEN", "/"))
+                .andExpect(cookie().httpOnly("XSRF-TOKEN", false))
+                .andExpect(cookie().value("XSRF-TOKEN", notNullValue()));
     }
 }
+
