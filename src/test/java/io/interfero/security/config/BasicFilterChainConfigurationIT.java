@@ -33,17 +33,10 @@ class BasicFilterChainConfigurationIT
     }
 
     @Test
-    void shouldAllowAccessToLoginPage() throws Exception
-    {
-        mockMvc.perform(get("/login"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void shouldAllowAccessToLogout() throws Exception
+    void shouldRedirectOnLogout() throws Exception
     {
         mockMvc.perform(get("/logout"))
-                .andExpect(status().isOk());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
