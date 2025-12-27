@@ -5,7 +5,6 @@ import org.springframework.boot.security.autoconfigure.actuate.web.servlet.Endpo
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -46,12 +45,16 @@ class BasicFilterChainConfiguration
 
     @Bean
     @Order(3)
-    SecurityFilterChain frontendSecurityFilterChain(HttpSecurity http)
+    SecurityFilterChain frontendSecurityFilterChain(HttpSecurity http, LoginHandler loginHandler)
     {
         http
                 .securityMatcher(req -> !req.getRequestURI().startsWith("/api"))
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .successHandler(loginHandler)
+                        .failureHandler(loginHandler)
+                        .permitAll())
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
