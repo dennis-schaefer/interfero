@@ -1,7 +1,9 @@
-import {Card, CardContent} from "@/components/ui/card.tsx";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {FieldLabel, FieldSet, FieldGroup, FieldError, Field} from "@/components/ui/field";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
+import {Spinner} from "@/components/ui/spinner.tsx";
+import {AudioWaveform} from "lucide-react";
 import {useAuth} from "@/features/security/AuthContext.tsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -47,9 +49,7 @@ export default function LoginPage() {
             formData.append("password", data.password);
 
             const response = await axios.post("/login", formData, {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 withCredentials: true,
             });
 
@@ -83,6 +83,15 @@ export default function LoginPage() {
     return (
         <div className={"grid h-screen w-screen place-items-center"}>
             <Card className="w-full max-w-sm">
+                <CardHeader>
+                    <CardTitle className={"flex flex-row items-center gap-2"}>
+                        <AudioWaveform/>
+                        <h2 className="text-2xl font-semibold">Interfero</h2>
+                    </CardTitle>
+                    <CardDescription>
+                        Sign in to your account to continue
+                    </CardDescription>
+                </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FieldSet>
@@ -109,6 +118,7 @@ export default function LoginPage() {
                             </FieldGroup>
 
                             <Button type="submit" className="w-full" disabled={isSubmitting}>
+                                {isSubmitting  && <Spinner />}
                                 {isSubmitting ? "Signing in..." : "Sign In"}
                             </Button>
                         </FieldSet>
