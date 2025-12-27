@@ -54,7 +54,7 @@ class BasicFilterChainConfiguration
     {
         http
                 .securityMatcher(req -> !req.getRequestURI().startsWith("/api"))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/assets/**").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/assets/**", "/favicon.svg").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")
