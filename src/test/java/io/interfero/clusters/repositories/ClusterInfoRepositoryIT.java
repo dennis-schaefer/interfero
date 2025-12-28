@@ -29,5 +29,23 @@ abstract class ClusterInfoRepositoryIT
         var clusterInfoByName = clusterInfoRepository.findByName(clusterInfoToSave.name());
         assertThat(clusterInfoByName).isPresent();
         assertThat(clusterInfoByName.get()).isEqualTo(clusterInfoToSave);
+
+        var clusterInfoToUpdate = new ClusterInfo(clusterInfoToSave.name(), "standalone",
+                "Updated Test Cluster", "waves", "blue");
+
+        var updatedClusterInfo = clusterInfoRepository.save(clusterInfoToUpdate);
+        assertThat(updatedClusterInfo).isNotNull();
+        assertThat(updatedClusterInfo).isEqualTo(clusterInfoToUpdate);
+
+        clusterInfoByName = clusterInfoRepository.findByName(updatedClusterInfo.name());
+        assertThat(clusterInfoByName).isPresent();
+        assertThat(clusterInfoByName.get()).isEqualTo(updatedClusterInfo);
+    }
+
+    @Test
+    void shouldNotFindNonExistingClusterInfo()
+    {
+        var clusterInfoByName = clusterInfoRepository.findByName("non-existing-cluster");
+        assertThat(clusterInfoByName).isNotPresent();
     }
 }
