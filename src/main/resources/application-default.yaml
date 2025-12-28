@@ -5,6 +5,9 @@ interfero.database:
   vendor: postgres
   driver-class-name: org.postgresql.Driver
 ---
+interfero.directories:
+  data: /opt/interfero/data
+---
 management:
   server.port: 8081
   endpoints.web:
