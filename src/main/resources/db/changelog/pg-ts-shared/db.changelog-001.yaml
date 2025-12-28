@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001.1
+      author: dennis-schaefer
+      changes:
+        - createTable:
+            tableName: cluster_info
+            columns:
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: internal_name
+                  type: varchar(128)
+                  constraints:
+                      nullable: false
+              - column:
+                  name: display_name
+                  type: varchar(255)
+              - column:
+                  name: icon
+                  type: varchar(64)
+              - column:
+                  name: color
+                  type: varchar(10)

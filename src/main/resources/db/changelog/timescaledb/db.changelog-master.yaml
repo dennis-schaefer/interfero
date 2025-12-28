@@ -1,1 +1,4 @@
 databaseChangeLog:
+  - include:
+      file: ../pg-ts-shared/db.changelog-001.yaml
+      relativeToChangelogFile: true
