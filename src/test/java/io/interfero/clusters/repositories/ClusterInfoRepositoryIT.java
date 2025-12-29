@@ -1,6 +1,6 @@
 package io.interfero.clusters.repositories;
 
-import io.interfero.clusters.domain.ClusterInfo;
+import io.interfero.clusters.domain.ClusterInfoRecord;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -14,7 +14,7 @@ abstract class ClusterInfoRepositoryIT
     @Test
     void shouldSaveAndFindClusterInfo()
     {
-        var clusterInfoToSave = new ClusterInfo(UUID.randomUUID().toString(), "standalone",
+        var clusterInfoToSave = new ClusterInfoRecord(UUID.randomUUID().toString(),
                 "Test Cluster", "waves", "green");
 
         var savedClusterInfo = clusterInfoRepository.save(clusterInfoToSave);
@@ -30,7 +30,7 @@ abstract class ClusterInfoRepositoryIT
         assertThat(clusterInfoByName).isPresent();
         assertThat(clusterInfoByName.get()).isEqualTo(clusterInfoToSave);
 
-        var clusterInfoToUpdate = new ClusterInfo(clusterInfoToSave.name(), "standalone",
+        var clusterInfoToUpdate = new ClusterInfoRecord(clusterInfoToSave.name(),
                 "Updated Test Cluster", "waves", "blue");
 
         var updatedClusterInfo = clusterInfoRepository.save(clusterInfoToUpdate);

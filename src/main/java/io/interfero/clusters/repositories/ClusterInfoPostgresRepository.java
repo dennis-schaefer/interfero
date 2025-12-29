@@ -1,6 +1,6 @@
 package io.interfero.clusters.repositories;
 
-import io.interfero.clusters.domain.ClusterInfo;
+import io.interfero.clusters.domain.ClusterInfoRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -25,49 +25,47 @@ public class ClusterInfoPostgresRepository implements ClusterInfoRepository
     private final JdbcClient jdbcClient;
 
     @Override
-    public Set<ClusterInfo> findAll()
+    public Set<ClusterInfoRecord> findAll()
     {
         var sql = "SELECT * FROM cluster_info";
 
         return jdbcClient.sql(sql)
-                .query(ClusterInfo.class)
+                .query(ClusterInfoRecord.class)
                 .set()
                 .stream().filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public Optional<ClusterInfo> findByName(String name)
+    public Optional<ClusterInfoRecord> findByName(String name)
     {
         var sql = "SELECT * FROM cluster_info WHERE name = :name";
 
         return jdbcClient.sql(sql)
                 .param("name", name)
-                .query(ClusterInfo.class)
+                .query(ClusterInfoRecord.class)
                 .optional();
     }
 
     @Override
-    public ClusterInfo save(ClusterInfo clusterInfo)
+    public ClusterInfoRecord save(ClusterInfoRecord clusterInfoRecord)
     {
         var sql = """
-                INSERT INTO cluster_info (name, internal_name, display_name, icon, color)
-                VALUES (:name, :internalName, :displayName, :icon, :color)
+                INSERT INTO cluster_info (name, display_name, icon, color)
+                VALUES (:name, :displayName, :icon, :color)
                 ON CONFLICT (name) DO UPDATE SET
-                    internal_name = EXCLUDED.internal_name,
                     display_name = EXCLUDED.display_name,
                     icon = EXCLUDED.icon,
                     color = EXCLUDED.color
                 """;
 
         jdbcClient.sql(sql)
-                .param("name", clusterInfo.name())
-                .param("internalName", clusterInfo.internalName())
-                .param("displayName", clusterInfo.displayName())
-                .param("icon", clusterInfo.icon())
-                .param("color", clusterInfo.color())
+                .param("name", clusterInfoRecord.name())
+                .param("displayName", clusterInfoRecord.displayName())
+                .param("icon", clusterInfoRecord.icon())
+                .param("color", clusterInfoRecord.color())
                 .update();
 
-        return findByName(clusterInfo.name()).orElseThrow();
+        return findByName(clusterInfoRecord.name()).orElseThrow();
     }
 }

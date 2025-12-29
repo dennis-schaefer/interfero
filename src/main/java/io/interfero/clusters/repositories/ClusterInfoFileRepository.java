@@ -1,6 +1,6 @@
 package io.interfero.clusters.repositories;
 
-import io.interfero.clusters.domain.ClusterInfo;
+import io.interfero.clusters.domain.ClusterInfoRecord;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class ClusterInfoFileRepository implements ClusterInfoRepository
     }
 
     @Override
-    public Set<ClusterInfo> findAll()
+    public Set<ClusterInfoRecord> findAll()
     {
         try
         {
@@ -53,41 +53,41 @@ public class ClusterInfoFileRepository implements ClusterInfoRepository
     }
 
     @Override
-    public Optional<ClusterInfo> findByName(String name)
+    public Optional<ClusterInfoRecord> findByName(String name)
     {
         var existingClusterInfoRecords = findAll();
-        for (ClusterInfo clusterInfo : existingClusterInfoRecords)
+        for (ClusterInfoRecord clusterInfoRecord : existingClusterInfoRecords)
         {
-            if (clusterInfo.name().equals(name))
-                return Optional.of(clusterInfo);
+            if (clusterInfoRecord.name().equals(name))
+                return Optional.of(clusterInfoRecord);
         }
 
         return Optional.empty();
     }
 
     @Override
-    public ClusterInfo save(ClusterInfo clusterInfo)
+    public ClusterInfoRecord save(ClusterInfoRecord clusterInfoRecord)
     {
         var existingClusterInfoRecords = findAll();
-        Set<ClusterInfo> clusterInfoRecordsToSave = new HashSet<>();
+        Set<ClusterInfoRecord> clusterInfoRecordRecordsToSave = new HashSet<>();
 
-        for (ClusterInfo existingClusterInfo : existingClusterInfoRecords)
+        for (ClusterInfoRecord existingClusterInfoRecord : existingClusterInfoRecords)
         {
-            if (!existingClusterInfo.name().equals(clusterInfo.name()))
-                clusterInfoRecordsToSave.add(existingClusterInfo);
+            if (!existingClusterInfoRecord.name().equals(clusterInfoRecord.name()))
+                clusterInfoRecordRecordsToSave.add(existingClusterInfoRecord);
         }
 
-        clusterInfoRecordsToSave.add(clusterInfo);
-        saveAll(clusterInfoRecordsToSave);
-        return findByName(clusterInfo.name()).orElseThrow();
+        clusterInfoRecordRecordsToSave.add(clusterInfoRecord);
+        saveAll(clusterInfoRecordRecordsToSave);
+        return findByName(clusterInfoRecord.name()).orElseThrow();
     }
 
-    private void saveAll(Set<ClusterInfo> clusterInfoRecords)
+    private void saveAll(Set<ClusterInfoRecord> clusterInfoRecordRecords)
     {
-        var clusterNames = clusterInfoRecords.stream().map(ClusterInfo::name).toList();
-        log.trace("Saving {} cluster info records to file {}: {}", clusterInfoRecords.size(),
+        var clusterNames = clusterInfoRecordRecords.stream().map(ClusterInfoRecord::name).toList();
+        log.trace("Saving {} cluster info records to file {}: {}", clusterInfoRecordRecords.size(),
                 clusterInfoFile.getAbsolutePath(), clusterNames);
-        objectWriter.writeValue(clusterInfoFile, clusterInfoRecords);
+        objectWriter.writeValue(clusterInfoFile, clusterInfoRecordRecords);
     }
 
     @PostConstruct

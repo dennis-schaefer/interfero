@@ -13,11 +13,6 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: internal_name
-                  type: varchar(128)
-                  constraints:
-                      nullable: false
-              - column:
                   name: display_name
                   type: varchar(255)
               - column:
