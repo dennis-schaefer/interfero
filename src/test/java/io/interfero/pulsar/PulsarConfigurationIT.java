@@ -1,4 +1,4 @@
-package io.interfero.pulsar.config;
+package io.interfero.pulsar;
 
 import io.interfero.TestcontainersConfiguration;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 @SpringBootTest
 @ActiveProfiles("it")

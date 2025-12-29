@@ -1,4 +1,4 @@
 @NullMarked
-package io.interfero.pulsar.config;
+package io.interfero.clusters;
 
 import org.jspecify.annotations.NullMarked;

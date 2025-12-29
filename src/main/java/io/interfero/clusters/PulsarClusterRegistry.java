@@ -1,6 +1,6 @@
-package io.interfero.pulsar;
+package io.interfero.clusters;
 
-import io.interfero.pulsar.config.PulsarConfiguration;
+import io.interfero.pulsar.PulsarConfiguration;
 import org.apache.pulsar.client.admin.PulsarAdmin;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.springframework.boot.pulsar.autoconfigure.PulsarProperties;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-class PulsarClusterRegistry
+public class PulsarClusterRegistry
 {
     private final PulsarConfiguration pulsarConfiguration;
     private final Map<String, PulsarClient> pulsarClients = new HashMap<>();
     private final Map<String, PulsarAdmin> pulsarAdmins = new HashMap<>();
 
-    public PulsarClusterRegistry(PulsarConfiguration pulsarConfiguration)
+    PulsarClusterRegistry(PulsarConfiguration pulsarConfiguration)
     {
         this.pulsarConfiguration = pulsarConfiguration;
 
@@ -60,11 +60,11 @@ class PulsarClusterRegistry
 
     private void initPulsarClientsAndAdmins()
     {
-        pulsarConfiguration.getClusters().forEach(this::initPulsarCluster);
+        pulsarConfiguration.getClusters().forEach(this::initPulsarClient);
         pulsarConfiguration.getClusters().forEach(this::initPulsarAdmin);
     }
 
-    private void initPulsarCluster(String clusterName, PulsarProperties properties)
+    private void initPulsarClient(String clusterName, PulsarProperties properties)
     {
         try
         {

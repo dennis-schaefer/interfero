@@ -1,6 +1,7 @@
 package io.interfero.pulsar;
 
 import io.interfero.TestcontainersConfiguration;
+import io.interfero.clusters.PulsarClusterRegistry;
 import org.apache.pulsar.client.admin.PulsarAdminException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
