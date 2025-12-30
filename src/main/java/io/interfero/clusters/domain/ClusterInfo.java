@@ -18,4 +18,15 @@ public record ClusterInfo(String name,
                 icon != null && !icon.isBlank() &&
                 color != null && !color.isBlank();
     }
+
+    public static ClusterInfo from(ClusterInfoRecord record, String internalName)
+    {
+        return new ClusterInfo(
+                record.name(),
+                internalName,
+                record.displayName(),
+                record.icon(),
+                record.color()
+        );
+    }
 }
