@@ -1,6 +1,7 @@
 package io.interfero.clusters.repositories;
 
 import io.interfero.clusters.domain.ClusterInfoRecord;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -10,6 +11,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 abstract class ClusterInfoRepositoryIT
 {
     protected ClusterInfoRepository clusterInfoRepository;
+
+    @AfterEach
+    void tearDown()
+    {
+        clusterInfoRepository.deleteAll();
+    }
 
     @Test
     void shouldSaveAndFindClusterInfo()
@@ -47,5 +54,25 @@ abstract class ClusterInfoRepositoryIT
     {
         var clusterInfoByName = clusterInfoRepository.findByName("non-existing-cluster");
         assertThat(clusterInfoByName).isNotPresent();
+    }
+
+    @Test
+    void shouldDeleteAllClusterInfoRecords()
+    {
+        var clusterInfo1 = new ClusterInfoRecord(UUID.randomUUID().toString(),
+                "Cluster 1", "icon1", "red");
+        var clusterInfo2 = new ClusterInfoRecord(UUID.randomUUID().toString(),
+                "Cluster 2", "icon2", "blue");
+
+        clusterInfoRepository.save(clusterInfo1);
+        clusterInfoRepository.save(clusterInfo2);
+
+        var allClusterInfoRecords = clusterInfoRepository.findAll();
+        assertThat(allClusterInfoRecords).hasSize(2);
+
+        clusterInfoRepository.deleteAll();
+
+        allClusterInfoRecords = clusterInfoRepository.findAll();
+        assertThat(allClusterInfoRecords).isEmpty();
     }
 }

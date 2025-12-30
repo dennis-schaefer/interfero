@@ -82,6 +82,13 @@ public class ClusterInfoFileRepository implements ClusterInfoRepository
         return findByName(clusterInfoRecord.name()).orElseThrow();
     }
 
+    @Override
+    public void deleteAll()
+    {
+        log.debug("Deleting all cluster info records from file {}", clusterInfoFile.getAbsolutePath());
+        saveAll(Set.of());
+    }
+
     private void saveAll(Set<ClusterInfoRecord> clusterInfoRecordRecords)
     {
         var clusterNames = clusterInfoRecordRecords.stream().map(ClusterInfoRecord::name).toList();

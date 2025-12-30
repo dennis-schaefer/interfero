@@ -29,4 +29,9 @@ public interface ClusterInfoRepository
      * @return the saved cluster info
      */
     ClusterInfoRecord save(ClusterInfoRecord clusterInfoRecord);
+
+    /**
+     * Deletes all cluster info records from the data store.
+     */
+    void deleteAll();
 }

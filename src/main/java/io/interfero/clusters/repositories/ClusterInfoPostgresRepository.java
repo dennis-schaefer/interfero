@@ -68,4 +68,11 @@ public class ClusterInfoPostgresRepository implements ClusterInfoRepository
 
         return findByName(clusterInfoRecord.name()).orElseThrow();
     }
+
+    @Override
+    public void deleteAll()
+    {
+        var sql = "DELETE FROM cluster_info";
+        jdbcClient.sql(sql).update();
+    }
 }
