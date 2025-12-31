@@ -7,6 +7,7 @@ import io.interfero.clusters.repositories.ClusterInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pulsar.client.admin.PulsarAdminException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -100,6 +101,7 @@ public class ClusterInfoService
      * @return Saved cluster info
      * @throws IllegalArgumentException If the cluster name provided in the cluster info is not configured
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ClusterInfo saveClusterInfo(ClusterInfo clusterInfo)
     {
         log.info("Saving cluster info: {}", clusterInfo);
