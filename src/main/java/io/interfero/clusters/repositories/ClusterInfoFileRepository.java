@@ -3,6 +3,7 @@ package io.interfero.clusters.repositories;
 import io.interfero.clusters.domain.ClusterInfoRecord;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
@@ -94,7 +95,17 @@ public class ClusterInfoFileRepository implements ClusterInfoRepository
         var clusterNames = clusterInfoRecordRecords.stream().map(ClusterInfoRecord::name).toList();
         log.trace("Saving {} cluster info records to file {}: {}", clusterInfoRecordRecords.size(),
                 clusterInfoFile.getAbsolutePath(), clusterNames);
-        objectWriter.writeValue(clusterInfoFile, clusterInfoRecordRecords);
+
+        try
+        {
+            FileUtils.createParentDirectories(clusterInfoFile);
+            objectWriter.writeValue(clusterInfoFile, clusterInfoRecordRecords);
+        }
+        catch (Exception e)
+        {
+            log.error("Error saving cluster info records to file {}", clusterInfoFile.getAbsolutePath(), e);
+            throw new RuntimeException(e);
+        }
     }
 
     @PostConstruct
