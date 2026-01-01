@@ -1,4 +1,4 @@
-package io.interfero.pulsar.config;
+package io.interfero.pulsar;
 
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
