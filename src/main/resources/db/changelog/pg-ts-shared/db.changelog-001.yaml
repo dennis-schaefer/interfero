@@ -52,14 +52,16 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: client_connection_settings_id
-                  type: int
+                  type: bigint
                   constraints:
                     nullable: false
+                    unique: true
               - column:
                   name: admin_connection_settings_id
-                  type: int
+                  type: bigint
                   constraints:
                     nullable: false
+                    unique: true
 
         - createTable:
             tableName: cluster_connection_settings
