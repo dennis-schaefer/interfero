@@ -1,7 +1,6 @@
 package io.interfero.clusters.domain;
 
 import lombok.*;
-import org.apache.commons.text.RandomStringGenerator;
 import org.jspecify.annotations.Nullable;
 
 @Getter
@@ -20,7 +19,7 @@ public class ClusterEntity
     @Nullable
     private String internalName;
 
-    public ClusterEntity(@Nullable String id, String color, String icon, String displayName,
+    public ClusterEntity(@Nullable String id, String displayName, String icon, String color,
                          Long clientConnectionSettingsId, Long adminConnectionSettingsId)
     {
         this.id = id == null ? "" : id;
