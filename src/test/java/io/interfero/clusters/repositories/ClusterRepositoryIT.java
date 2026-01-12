@@ -30,7 +30,7 @@ abstract class ClusterRepositoryIT
         assertThat(clientConnectionSettings.id()).isNotNull();
         assertThat(adminConnectionSettings.id()).isNotNull();
 
-        var clusterToSave = new ClusterEntity("ABCD1234", "#FF0000", "star", "Test Cluster",
+        var clusterToSave = new ClusterEntity("ABCD1234", "Test Cluster",  "star", "#FF0000",
                 clientConnectionSettings.id(), adminConnectionSettings.id());
 
         var savedCluster = clusterRepository.save(clusterToSave);
@@ -45,7 +45,7 @@ abstract class ClusterRepositoryIT
         assertThat(clusterById).isPresent();
         assertThat(clusterById.get()).isEqualTo(savedCluster);
 
-        var clusterToUpdate = new ClusterEntity(savedCluster.getId(), "#00FF00", "circle", "Updated Test Cluster",
+        var clusterToUpdate = new ClusterEntity(savedCluster.getId(), "Updated Test Cluster", "circle", "#00FF00",
                 clientConnectionSettings.id(), adminConnectionSettings.id());
         var updatedCluster = clusterRepository.save(clusterToUpdate);
         assertThat(updatedCluster).isNotNull();
@@ -74,7 +74,7 @@ abstract class ClusterRepositoryIT
         assertThat(clientConnectionSettings.id()).isNotNull();
         assertThat(adminConnectionSettings.id()).isNotNull();
 
-        var clusterToSave = new ClusterEntity("ABCD1234", "#FF0000", "circle", "Test Cluster",
+        var clusterToSave = new ClusterEntity("ABCD1234", "Test Cluster", "circle", "#FF0000",
                 clientConnectionSettings.id(), adminConnectionSettings.id());
 
         var savedCluster = clusterRepository.save(clusterToSave);
@@ -103,9 +103,9 @@ abstract class ClusterRepositoryIT
         assertThat(clientConnectionSettings2.id()).isNotNull();
         assertThat(adminConnectionSettings2.id()).isNotNull();
 
-        var cluster1 = new ClusterEntity("A0000001", "#FF0000", "circle", "Cluster One",
+        var cluster1 = new ClusterEntity("A0000001", "Cluster One", "circle", "#FF0000",
                 clientConnectionSettings1.id(), adminConnectionSettings1.id());
-        var cluster2 = new ClusterEntity("B0000002", "#00FF00", "square", "Cluster Two",
+        var cluster2 = new ClusterEntity("B0000002", "Cluster Two", "square", "#00FF00",
                 clientConnectionSettings2.id(), adminConnectionSettings2.id());
 
         clusterRepository.save(cluster1);
