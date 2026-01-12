@@ -13,7 +13,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * JDBC-based implementation of {@link ClusterConnectionSettingsRepository}.
+ * JDBC-based implementation of {@link ClusterConnectionSettingsRepository}. Currently, this implementation only
+ * supports thePostgres SQL dialect.
  */
 @Repository
 @RequiredArgsConstructor
