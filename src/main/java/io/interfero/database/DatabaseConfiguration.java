@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -36,6 +37,12 @@ class DatabaseConfiguration
     DataSource dataSource(DataSourceProperties dataSourceProperties)
     {
         return dataSourceProperties.initializeDataSourceBuilder().build();
+    }
+
+    @Bean
+    public DataSourceTransactionManager transactionManager(DataSource dataSource)
+    {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean
