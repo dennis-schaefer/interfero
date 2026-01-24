@@ -27,7 +27,7 @@
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.71.1",
     "react-router-dom": "^7.13.0",
-    "shadcn": "^3.6.2",
+    "shadcn": "^3.7.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17",
     "zod": "^4.2.1"
