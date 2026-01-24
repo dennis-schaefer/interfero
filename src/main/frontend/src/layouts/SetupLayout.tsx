@@ -85,7 +85,7 @@ export default function SetupLayout() {
                 ref={canvasRef}
                 className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
             />
-            <div className="relative z-10 w-full h-full overflow-y-auto">
+            <div className="relative z-10 w-full h-full overflow-hidden">
                 <Outlet />
             </div>
         </div>
