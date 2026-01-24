@@ -6,3 +6,7 @@
  */
 
 export * from './AccountInfo';
+export * from './ClusterConnectionSettings';
+export * from './ClusterConnectionSettingsAuthenticationMethod';
+export * from './ClusterCreation';
+export * from './ClusterInfo';

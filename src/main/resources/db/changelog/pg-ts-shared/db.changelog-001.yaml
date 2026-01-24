@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 001.1
+      id: 001.XXX
       author: dennis-schaefer
       changes:
         - createTable:
@@ -21,3 +21,81 @@ databaseChangeLog:
               - column:
                   name: color
                   type: varchar(10)
+
+  - changeSet:
+      id: 001.1
+      author: dennis-schaefer
+      changes:
+        - createTable:
+            tableName: cluster
+            columns:
+              - column:
+                  name: id
+                  type: char(8)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: display_name
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: icon
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: color
+                  type: char(7)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_connection_settings_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: admin_connection_settings_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+
+        - createTable:
+            tableName: cluster_connection_settings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: service_url
+                  type: varchar(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authentication_method
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authentication_details
+                  type: text
+
+        - addForeignKeyConstraint:
+            constraintName: fk_cluster_client_connection_settings
+            baseTableName: cluster
+            baseColumnNames: client_connection_settings_id
+            referencedTableName: cluster_connection_settings
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            constraintName: fk_cluster_admin_connection_settings
+            baseTableName: cluster
+            baseColumnNames: admin_connection_settings_id
+            referencedTableName: cluster_connection_settings
+            referencedColumnNames: id

@@ -1,6 +1,6 @@
 package io.interfero.security.config;
 
-import io.interfero.security.domain.Roles;
+import io.interfero.security.Roles;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;

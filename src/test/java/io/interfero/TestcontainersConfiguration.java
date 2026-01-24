@@ -18,9 +18,9 @@ import java.util.concurrent.CompletableFuture;
 public class TestcontainersConfiguration
 {
     private static Dotenv dotenv;
-    private static PostgreSQLContainer postgresContainer; // Instance for Postgres and TimescaleDB
-    private static final PulsarContainer pulsarClusterAContainer;
-    private static final PulsarContainer pulsarClusterBContainer;
+    public static PostgreSQLContainer postgresContainer; // Instance for Postgres and TimescaleDB
+    public static final PulsarContainer pulsarClusterAContainer;
+    public static final PulsarContainer pulsarClusterBContainer;
 
     static
     {
