@@ -40,7 +40,7 @@
 
     <properties>
         <java.version>25</java.version>
-        <node.version>v24.11.1</node.version>
+        <node.version>v24.13.0</node.version>
         <spring-modulith.version>2.0.1</spring-modulith.version>
         <springdoc.version>3.0.0</springdoc.version>
         <dotenv-java.version>3.2.0</dotenv-java.version>
