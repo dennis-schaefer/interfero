@@ -24,6 +24,12 @@ export default function SetupLayout() {
         let width: number;
         let height: number;
 
+        const isDarkMode = document.body.classList.contains('dark');
+
+        const getBackgroundColor = () => {
+            return isDarkMode ? '#090909' : '#fafdfa';
+        };
+
         const resize = () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
@@ -33,9 +39,9 @@ export default function SetupLayout() {
         window.addEventListener('resize', resize);
 
         const waves: WaveConfig[] = [
-            { y: 0.7, length: 0.01, amplitude: 50, speed: 0.003, color: 'rgba(0, 152, 105, 0.1)' },
-            { y: 0.75, length: 0.007, amplitude: 70, speed: 0.005, color: 'rgba(0, 152, 105, 0.15)' },
-            { y: 0.8, length: 0.005, amplitude: 40, speed: 0.007, color: 'rgba(0, 152, 105, 0.2)' }
+            { y: 0.7, length: 0.01, amplitude: 50, speed: 0.003, color: (isDarkMode ? 'rgba(0, 152, 105, 0.1)' : 'rgba(0, 152, 105, 0.125)') },
+            { y: 0.75, length: 0.007, amplitude: 70, speed: 0.005, color: (isDarkMode ? 'rgba(0, 152, 105, 0.15)' : 'rgba(0, 152, 105, 0.2)') },
+            { y: 0.8, length: 0.005, amplitude: 40, speed: 0.007, color: (isDarkMode ? 'rgba(0, 152, 105, 0.2)' : 'rgba(0, 152, 105, 0.275)') }
         ];
 
         let increment = 0;
@@ -43,8 +49,7 @@ export default function SetupLayout() {
         const draw = () => {
             ctx.clearRect(0, 0, width, height);
 
-            // Hintergrundfarbe
-            ctx.fillStyle = '#090909';
+            ctx.fillStyle = getBackgroundColor();
             ctx.fillRect(0, 0, width, height);
 
             increment += 1;
