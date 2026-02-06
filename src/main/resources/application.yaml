@@ -27,6 +27,7 @@ springdoc:
 logging.level:
   org.springframework: WARN
   org.springdoc: WARN
+  org.apache.pulsar: ERROR
   org.apache: WARN
   com.tngtech: WARN
   com.zaxxer: WARN
