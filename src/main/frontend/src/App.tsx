@@ -10,21 +10,21 @@ import ClusterSetupPage from "@/pages/ClusterSetupPage.tsx";
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "/login/",
         Component: SetupLayout,
         children: [
             {
                 index: true,
-                element: <ProtectedPage><ClusterSetupPage/></ProtectedPage>
-            },
-            {
-                path: "login",
                 Component: LoginPage
             },
+            {
+                path: "setup",
+                element: <ProtectedPage><ClusterSetupPage/></ProtectedPage>
+            }
         ]
     },
     {
-        path: "/dashboard",
+        path: "/",
         children: [
             {
                 index: true,
