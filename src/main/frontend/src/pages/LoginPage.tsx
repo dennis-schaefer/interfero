@@ -82,7 +82,7 @@ export default function LoginPage() {
 
     return (
         <div className={"grid h-screen w-screen place-items-center overflow-y-auto"}>
-            <Card className="w-full max-w-sm bg-stone-400/10 backdrop-blur-2xl">
+            <Card className="w-full max-w-sm backdrop-blur-xl bg-background/50 dark:bg-background/15">
                 <CardHeader>
                     <CardTitle className={"flex flex-row items-center gap-2"}>
                         <AudioWaveform/>
