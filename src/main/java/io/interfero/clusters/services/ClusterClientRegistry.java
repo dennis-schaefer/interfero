@@ -1,6 +1,7 @@
 package io.interfero.clusters.services;
 
 import io.interfero.clusters.domain.ClusterConnectionSettingsEntity;
+import io.interfero.clusters.ClusterConnectionVerificationException;
 import io.interfero.clusters.domain.ClusterEntity;
 import io.interfero.clusters.events.ClusterClientsRegisteredEvent;
 import io.interfero.clusters.events.ClusterClientsUnregisteredEvent;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 
 @Slf4j
 @Service
@@ -26,6 +27,84 @@ public class ClusterClientRegistry
 
     private final Map<String, PulsarClient> pulsarClients = new ConcurrentHashMap<>();
     private final Map<String, PulsarAdmin> pulsarAdmins = new ConcurrentHashMap<>();
+
+    /**
+     * Verifies that a Pulsar Client connection can be established with the given connection settings. If the connection
+     * cannot be established, a {@link ClusterConnectionVerificationException} will be thrown containing the error
+     * message.
+     * @param clusterConnectionSettings Connection settings to verify the connection for
+     * @throws ClusterConnectionVerificationException if the connection cannot be established
+     */
+    public void verifyClientConnection(ClusterConnectionSettingsEntity clusterConnectionSettings)
+    {
+        log.info("Verifying Pulsar Client connection for: {}", clusterConnectionSettings);
+
+        try
+        {
+            var pulsarClient = createPulsarClientForConnectionSettings(clusterConnectionSettings);
+            verifyPulsarClient(pulsarClient);
+            pulsarClient.closeAsync();
+            log.debug("Pulsar Client connection verified");
+        }
+        catch (Exception e)
+        {
+            log.info("Failed to establish Pulsar Client connection: {}", e.getMessage());
+            throw new ClusterConnectionVerificationException(e.getMessage());
+        }
+    }
+
+    private void verifyPulsarClient(PulsarClient pulsarClient) throws Exception
+    {
+        var future = pulsarClient.getPartitionsForTopic("persistent://public/functions/metadata", true);
+
+        try {
+            future.get(1, TimeUnit.SECONDS);
+        }
+        catch (Exception e)
+        {
+            future.cancel(false);
+            throw e;
+        }
+    }
+
+    /**
+     * Verifies that a Pulsar Admin connection can be established with the given connection settings. If the connection
+     * cannot be established, a {@link ClusterConnectionVerificationException} will be thrown containing the error
+     * message.
+     * @param clusterConnectionSettings Connection settings to verify the connection for
+     * @throws ClusterConnectionVerificationException if the connection cannot be established
+     */
+    public void verifyAdminConnection(ClusterConnectionSettingsEntity clusterConnectionSettings)
+            throws ClusterConnectionVerificationException
+    {
+        log.info("Verifying Pulsar Admin connection for: {}", clusterConnectionSettings);
+
+        try
+        {
+            var pulsarAdmin = createPulsarAdminForConnectionSettings(clusterConnectionSettings);
+            verifyPulsarAdmin(pulsarAdmin);
+            pulsarAdmin.close();
+        }
+        catch (Exception e)
+        {
+            log.info("Failed to establish Pulsar Admin connection: {}", e.getMessage());
+            throw new ClusterConnectionVerificationException(e.getMessage());
+        }
+    }
+
+    private void verifyPulsarAdmin(PulsarAdmin pulsarAdmin) throws Exception
+    {
+        var future = pulsarAdmin.tenants().getTenantsAsync();
+
+        try
+        {
+            future.get(1, TimeUnit.SECONDS);
+        } catch (Exception e)
+        {
+            future.cancel(false);
+            throw e;
+        }
+    }
 
     /**
      * Returns a Pulsar Admin for the given cluster id, if registered.
@@ -112,7 +191,7 @@ public class ClusterClientRegistry
 
     private PulsarClient createPulsarClientForConnectionSettings(ClusterConnectionSettingsEntity connectionSettings)
     {
-        log.info("Creating Pulsar Client for: {}", connectionSettings);
+        log.debug("Creating Pulsar Client for: {}", connectionSettings);
 
         try
         {
@@ -129,7 +208,7 @@ public class ClusterClientRegistry
 
     private PulsarAdmin createPulsarAdminForConnectionSettings(ClusterConnectionSettingsEntity connectionSettings)
     {
-        log.info("Creating Pulsar Admin for: {}", connectionSettings);
+        log.debug("Creating Pulsar Admin for: {}", connectionSettings);
 
         try
         {
