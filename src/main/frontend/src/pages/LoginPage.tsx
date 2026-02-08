@@ -10,6 +10,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 const loginSchema = z.object({
@@ -24,6 +25,7 @@ export default function LoginPage() {
 
     const loginErrorMessage = "Login failed. Please check your credentials and try again.";
 
+    const navigate = useNavigate();
     const { isAuthenticated, loading: isLoadingAuth } = useAuth();
     const [loginError, setLoginError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,7 +57,7 @@ export default function LoginPage() {
 
             if (response.status === 200 && response.data.success) {
                 setLoginError(null);
-                window.location.href = "/";
+                navigate("/login/setup")
                 return;
             }
 
@@ -69,7 +71,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (!isLoadingAuth && isAuthenticated)
-            window.location.href = "/";
+            navigate("/login/setup");
     }, [isAuthenticated, isLoadingAuth]);
 
     useEffect(() => {
@@ -81,8 +83,8 @@ export default function LoginPage() {
         return <></>
 
     return (
-        <div className={"grid h-screen w-screen place-items-center"}>
-            <Card className="w-full max-w-sm">
+        <div className={"grid h-screen w-screen place-items-center overflow-y-auto"}>
+            <Card className="w-full max-w-sm backdrop-blur-xl bg-background/50 dark:bg-background/15">
                 <CardHeader>
                     <CardTitle className={"flex flex-row items-center gap-2"}>
                         <AudioWaveform/>

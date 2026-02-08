@@ -5,16 +5,34 @@ import {ProtectedPage} from "@/features/security/ProtectedPage.tsx";
 import LoginPage from "@/pages/LoginPage.tsx";
 import {useEffect} from "react";
 import axios from "axios";
+import SetupLayout from "@/layouts/SetupLayout.tsx";
+import ClusterSetupPage from "@/pages/ClusterSetupPage.tsx";
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <ProtectedPage><DashboardPage /></ProtectedPage>,
+        path: "/login/",
+        Component: SetupLayout,
+        children: [
+            {
+                index: true,
+                Component: LoginPage
+            },
+            {
+                path: "setup",
+                element: <ProtectedPage><ClusterSetupPage/></ProtectedPage>
+            }
+        ]
     },
     {
-        path: "/login",
-        element: <LoginPage />
-    }
+        path: "/",
+        children: [
+            {
+                index: true,
+                element: <ProtectedPage><DashboardPage /></ProtectedPage>
+            }
+        ]
+    },
+
 ]);
 
 export default function App() {

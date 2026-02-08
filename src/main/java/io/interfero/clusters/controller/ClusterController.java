@@ -1,9 +1,12 @@
 package io.interfero.clusters.controller;
 
+import io.interfero.clusters.dtos.ClusterConnectionSettings;
 import io.interfero.clusters.dtos.ClusterCreation;
 import io.interfero.clusters.dtos.ClusterInfo;
+import io.interfero.clusters.mappers.ClusterConnectionSettingsMapper;
 import io.interfero.clusters.mappers.ClusterCreationMapper;
 import io.interfero.clusters.mappers.ClusterInfoMapper;
+import io.interfero.clusters.services.ClusterClientRegistry;
 import io.interfero.clusters.services.ClusterCreationService;
 import io.interfero.clusters.services.ClusterService;
 import jakarta.validation.Valid;
@@ -26,6 +29,8 @@ public class ClusterController
     private final ClusterCreationService clusterCreationService;
     private final ClusterInfoMapper clusterInfoMapper;
     private final ClusterCreationMapper clusterCreationMapper;
+    private final ClusterClientRegistry clusterClientRegistry;
+    private final ClusterConnectionSettingsMapper clusterConnectionSettingsMapper;
 
     @GetMapping
     ResponseEntity<Set<ClusterInfo>> getAllClusterInfo()
@@ -38,7 +43,7 @@ public class ClusterController
                 .collect(Collectors.toSet());
         var response = ResponseEntity.ok(clusterInfo);
 
-        log.debug("HTTP GET '/api/clusters' called returned: {}", response);
+        log.debug("HTTP GET '/api/clusters' returned: {}", response);
         return response;
     }
 
@@ -55,7 +60,7 @@ public class ClusterController
             response = ResponseEntity.ok(clusterInfo);
         }
 
-        log.debug("HTTP GET '/api/clusters/{}' called returned: {}", clusterId, response);
+        log.debug("HTTP GET '/api/clusters/{}' returned: {}", clusterId, response);
         return response;
     }
 
@@ -70,7 +75,33 @@ public class ClusterController
         var uri = URI.create("/api/clusters/" + createdDto.clusterInfo().clusterId());
         var response = ResponseEntity.created(uri).body(createdDto);
 
-        log.debug("HTTP POST '/api/clusters' called returned: {}", response);
+        log.debug("HTTP POST '/api/clusters' returned: {}", response);
+        return response;
+    }
+
+    @PostMapping("/connections/admin/verify")
+    ResponseEntity<Void> verifyAdminConnection(@RequestBody ClusterConnectionSettings clusterConnectionSettings)
+    {
+        log.debug("HTTP POST '/api/clusters/connections/admin/verify' called");
+        var entity = clusterConnectionSettingsMapper.toEntity(clusterConnectionSettings);
+
+        clusterClientRegistry.verifyAdminConnection(entity);
+        ResponseEntity<Void> response = ResponseEntity.ok().build();
+
+        log.debug("HTTP POST '/api/clusters/connections/admin/verify' returned: {}", response);
+        return response;
+    }
+
+    @PostMapping("/connections/client/verify")
+    ResponseEntity<Void> verifyClientConnection(@RequestBody ClusterConnectionSettings clusterConnectionSettings)
+    {
+        log.debug("HTTP POST '/api/clusters/connections/client/verify' called");
+        var entity = clusterConnectionSettingsMapper.toEntity(clusterConnectionSettings);
+
+        clusterClientRegistry.verifyClientConnection(entity);
+        ResponseEntity<Void> response = ResponseEntity.ok().build();
+
+        log.debug("HTTP POST '/api/clusters/connections/client/verify' returned: {}", response);
         return response;
     }
 }

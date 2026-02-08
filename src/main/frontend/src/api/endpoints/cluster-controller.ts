@@ -24,6 +24,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ClusterConnectionSettings,
   ClusterCreation,
   ClusterInfo
 } from '../schemas';
@@ -177,6 +178,122 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getCreateClusterMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    export const verifyClientConnection = (
+    clusterConnectionSettings: ClusterConnectionSettings,
+ options?: SecondParameter<typeof axiosInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/api/clusters/connections/client/verify`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: clusterConnectionSettings, signal
+    },
+      options);
+    }
+  
+
+
+export const getVerifyClientConnectionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof verifyClientConnection>>, TError,{data: ClusterConnectionSettings}, TContext>, request?: SecondParameter<typeof axiosInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof verifyClientConnection>>, TError,{data: ClusterConnectionSettings}, TContext> => {
+
+const mutationKey = ['verifyClientConnection'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof verifyClientConnection>>, {data: ClusterConnectionSettings}> = (props) => {
+          const {data} = props ?? {};
+
+          return  verifyClientConnection(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type VerifyClientConnectionMutationResult = NonNullable<Awaited<ReturnType<typeof verifyClientConnection>>>
+    export type VerifyClientConnectionMutationBody = ClusterConnectionSettings
+    export type VerifyClientConnectionMutationError = unknown
+
+    export const useVerifyClientConnection = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof verifyClientConnection>>, TError,{data: ClusterConnectionSettings}, TContext>, request?: SecondParameter<typeof axiosInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof verifyClientConnection>>,
+        TError,
+        {data: ClusterConnectionSettings},
+        TContext
+      > => {
+
+      const mutationOptions = getVerifyClientConnectionMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    export const verifyAdminConnection = (
+    clusterConnectionSettings: ClusterConnectionSettings,
+ options?: SecondParameter<typeof axiosInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/api/clusters/connections/admin/verify`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: clusterConnectionSettings, signal
+    },
+      options);
+    }
+  
+
+
+export const getVerifyAdminConnectionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof verifyAdminConnection>>, TError,{data: ClusterConnectionSettings}, TContext>, request?: SecondParameter<typeof axiosInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof verifyAdminConnection>>, TError,{data: ClusterConnectionSettings}, TContext> => {
+
+const mutationKey = ['verifyAdminConnection'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof verifyAdminConnection>>, {data: ClusterConnectionSettings}> = (props) => {
+          const {data} = props ?? {};
+
+          return  verifyAdminConnection(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type VerifyAdminConnectionMutationResult = NonNullable<Awaited<ReturnType<typeof verifyAdminConnection>>>
+    export type VerifyAdminConnectionMutationBody = ClusterConnectionSettings
+    export type VerifyAdminConnectionMutationError = unknown
+
+    export const useVerifyAdminConnection = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof verifyAdminConnection>>, TError,{data: ClusterConnectionSettings}, TContext>, request?: SecondParameter<typeof axiosInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof verifyAdminConnection>>,
+        TError,
+        {data: ClusterConnectionSettings},
+        TContext
+      > => {
+
+      const mutationOptions = getVerifyAdminConnectionMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
