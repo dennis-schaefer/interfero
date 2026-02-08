@@ -1,7 +1,7 @@
-import type {ClusterInfo} from "@/api/schemas";
-import {useEffect, useState} from "react";
-import {Field, FieldLabel} from "@/components/ui/field.tsx";
-import {Input} from "@/components/ui/input.tsx";
+import type { ClusterInfo } from "@/api/schemas";
+import { useEffect, useState } from "react";
+import { Field, FieldLabel } from "@/components/ui/field.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import ClusterImage from "@/features/clusters/ClusterImage.tsx";
 
 interface ClusterInfoFormProps {
@@ -16,7 +16,7 @@ const emptyClusterInfo: ClusterInfo = {
     color: '#009869'
 }
 
-export default function ClusterInfoForm({initialClusterInfo, onClusterInfoChanged, disabled}: ClusterInfoFormProps) {
+export default function ClusterInfoForm({ initialClusterInfo, onClusterInfoChanged, disabled }: ClusterInfoFormProps) {
 
     const [clusterInfo, setClusterInfo] = useState<ClusterInfo>(initialClusterInfo || emptyClusterInfo);
 
@@ -25,6 +25,24 @@ export default function ClusterInfoForm({initialClusterInfo, onClusterInfoChange
             return {
                 ...prev,
                 displayName
+            }
+        });
+    }
+
+    const handleIconChange = (icon: string) => {
+        setClusterInfo(prev => {
+            return {
+                ...prev,
+                icon
+            }
+        });
+    }
+
+    const handleColorChange = (color: string) => {
+        setClusterInfo(prev => {
+            return {
+                ...prev,
+                color
             }
         });
     }
@@ -41,17 +59,20 @@ export default function ClusterInfoForm({initialClusterInfo, onClusterInfoChange
             </div>
             <div className={"flex flex-row gap-4 items-center"}>
                 <ClusterImage icon={clusterInfo.icon}
-                              color={clusterInfo.color}
-                              className={"size-20"} />
+                    color={clusterInfo.color}
+                    className={"size-20"}
+                    editable={!disabled}
+                    onIconChange={handleIconChange}
+                    onColorChange={handleColorChange} />
 
                 <Field>
                     <FieldLabel htmlFor={"displayName"}>Name of your Cluster</FieldLabel>
                     <Input id={"displayName"}
-                           placeholder={"e.g. Cluster Prod (EU)"}
-                           defaultValue={clusterInfo.displayName ||''}
-                           value={clusterInfo.displayName}
-                           disabled={disabled}
-                           onChange={e => handleDisplayNameChange(e.target.value)}/>
+                        placeholder={"e.g. Cluster Prod (EU)"}
+                        defaultValue={clusterInfo.displayName || ''}
+                        value={clusterInfo.displayName}
+                        disabled={disabled}
+                        onChange={e => handleDisplayNameChange(e.target.value)} />
                 </Field>
             </div>
         </>
