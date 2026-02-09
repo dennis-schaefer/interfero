@@ -31,14 +31,14 @@ The file `.env` is used for:
 
 ### Key Variables (from `.env`)
 
-| Variable | Description | Default |
-| :--- | :--- | :--- |
-| `INTERFERO_DATABASE_VENDOR` | Database to use (`postgres` or `timescaledb`) | `postgres` |
-| `POSTGRES_VERSION` | Version of PostgreSQL | `18.1` |
-| `POSTGRES_USER` | Database username | `admin` |
-| `POSTGRES_PASSWORD` | Database password | `secret` |
-| `TIMESCALEDB_VERSION` | Version of TimescaleDB | `2.24.0-pg18` |
-| `PULSAR_VERSION` | Version of Apache Pulsar | `4.1.1` |
+| Variable                    | Description                                   | Default       |
+|:----------------------------|:----------------------------------------------|:--------------|
+| `INTERFERO_DATABASE_VENDOR` | Database to use (`postgres` or `timescaledb`) | `postgres`    |
+| `POSTGRES_VERSION`          | Version of PostgreSQL                         | `18.1`        |
+| `POSTGRES_USER`             | Database username                             | `admin`       |
+| `POSTGRES_PASSWORD`         | Database password                             | `secret`      |
+| `TIMESCALEDB_VERSION`       | Version of TimescaleDB                        | `2.24.0-pg18` |
+| `PULSAR_VERSION`            | Version of Apache Pulsar                      | `4.1.1`       |
 
 ## 4. Infrastructure (Docker Compose)
 
@@ -67,20 +67,29 @@ The `docker-compose.yaml` file defines the local development infrastructure.
 
 ## 5. Starting the Application
 
-### Backend (Spring Boot)
-Run the Spring Boot application using Maven or your IDE.
-Ensure `docker-compose up` is running if you need the dependencies, OR rely on local configuration ensuring it points to the right ports.
-*   **Command**: `mvn spring-boot:run`
-*   **Production Build**: `mvn clean install -Pproduction` (This triggers frontend build).
+### 1. Infrastructure (Docker Compose)
+Before starting the application, ensure the database and Pulsar clusters are running.
+*   **Command**: `docker-compose up -d`
+*   **Status**: Verify containers are running via `docker ps`.
 
-### Frontend (Vite)
-Located in `src/main/frontend`.
-*   **Install Dependencies**: `npm install`
-*   **Start Dev Server**: `npm run dev`
-    *   This runs `orval` (API generation) followed by `vite`.
-*   **Generate API Client**: `npm run generate:api`
-    *   Uses `orval` to generate TypeScript clients from the OpenAPI spec.
-*   **Build**: `npm run build`
+### 2. Backend (Spring Boot) & Frontend (Vite)
+The application is designed to be started from the Backend, which automatically manages the Frontend development server.
+
+*   **Profiles**: You MUST active these two profiles: `dev`, `dev-timescaledb`.
+*   **Startup**: Run the Spring Boot application (e.g., via IntelliJ or Maven).
+*   **Automatic Frontend Startup**:
+    *   The Spring Boot application detects the `dev` profile and automatically starts the Vite Dev Server (React Frontend) using the `ViteDevServerStartup` component.
+    *   **Do not run `npm run dev` manually** unless you specifically need to run frontend independently.
+*   **Access**:
+    *   **Backend API**: `http://localhost:8080`
+    *   **Frontend UI**: `http://localhost:3000`
+
+### 3. Authentication (Default Credentials)
+A dummy admin account is created for development.
+
+*   **Username**: `admin`
+*   **Password**: `secret`
+*   **Note**: Authentication is stateless (or session-based but reset on restart in-memory depending on impl). You must re-authenticate (login) after every restart of the backend application.
 
 ## 6. Testing
 
