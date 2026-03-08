@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 export function ClusterSelector() {
     const { data: clusters, isLoading } = useGetAllClusterInfo();
     const { selectedClusterId, setSelectedClusterId } = useClusterStore();
-    const { state } = useSidebar();
+    const { state, isMobile } = useSidebar();
     const isCollapsed = state === "collapsed";
     const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ export function ClusterSelector() {
                     )}
                 </SelectValue>
             </SelectTrigger>
-            <SelectContent className="min-w-48" side="right" alignItemWithTrigger={false}>
+            <SelectContent className="min-w-48" side={isMobile ? "bottom" : "right"} alignItemWithTrigger={false}>
                 <SelectGroup>
                     <SelectLabel>Clusters</SelectLabel>
                     {clusters?.map((cluster) => (
