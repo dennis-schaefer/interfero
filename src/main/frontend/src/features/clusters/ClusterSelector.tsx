@@ -1,16 +1,19 @@
 
 import { useGetAllClusterInfo } from "@/api/endpoints/cluster-controller.ts";
 import { useClusterStore } from "@/stores/useClusterStore.ts";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select.tsx";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from "@/components/ui/select.tsx";
 import ClusterImage from "@/features/clusters/ClusterImage.tsx";
 import { useSidebar } from "@/components/ui/sidebar.tsx";
 import { useEffect } from "react";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export function ClusterSelector() {
     const { data: clusters, isLoading } = useGetAllClusterInfo();
     const { selectedClusterId, setSelectedClusterId } = useClusterStore();
     const { state } = useSidebar();
     const isCollapsed = state === "collapsed";
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!isLoading && clusters && clusters.length > 0 && !selectedClusterId) {
@@ -50,23 +53,34 @@ export function ClusterSelector() {
                 </SelectValue>
             </SelectTrigger>
             <SelectContent className="min-w-48" side="right" alignItemWithTrigger={false}>
-                {clusters?.map((cluster) => (
-                    <SelectItem key={cluster.clusterId} value={cluster.clusterId || "unknown"} className={cluster.clusterId === selectedClusterId ? "bg-accent" : ""}>
-                        <div className="flex items-center gap-2">
-                            <div className="h-8 w-8 flex-shrink-0">
-                                <ClusterImage
-                                    icon={cluster.icon}
-                                    color={cluster.color}
-                                    className="text-sm p-1"
-                                />
+                <SelectGroup>
+                    <SelectLabel>Clusters</SelectLabel>
+                    {clusters?.map((cluster) => (
+                        <SelectItem key={cluster.clusterId} value={cluster.clusterId || "unknown"} className={cluster.clusterId === selectedClusterId ? "bg-accent" : ""}>
+                            <div className="flex items-center gap-2">
+                                <div className="h-8 w-8 flex-shrink-0">
+                                    <ClusterImage
+                                        icon={cluster.icon}
+                                        color={cluster.color}
+                                        className="text-sm p-1"
+                                    />
+                                </div>
+                                <div className="flex flex-col items-start text-left">
+                                    <span className="font-medium text-sm">{cluster.displayName}</span>
+                                    <span className="text-xs text-muted-foreground">{cluster.internalName}</span>
+                                </div>
                             </div>
-                            <div className="flex flex-col items-start text-left">
-                                <span className="font-medium text-sm">{cluster.displayName}</span>
-                                <span className="text-xs text-muted-foreground">{cluster.internalName}</span>
-                            </div>
-                        </div>
-                    </SelectItem>
-                ))}
+                        </SelectItem>
+                    ))}
+                </SelectGroup>
+                <SelectSeparator />
+                <div
+                    className="flex items-center gap-2 px-2 py-1.5 text-sm text-muted-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-sm"
+                    onClick={() => navigate("/clusters/create")}
+                >
+                    <Plus className="h-4 w-4" />
+                    <span>Add Cluster</span>
+                </div>
             </SelectContent>
         </Select>
     );
