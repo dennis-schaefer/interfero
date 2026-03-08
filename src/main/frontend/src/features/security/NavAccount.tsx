@@ -28,7 +28,6 @@ export function NavAccount() {
                         <SidebarMenuButton
                             size="lg"
                             tooltip={username}
-                            className="w-full cursor-pointer"
                         >
                             <Avatar className="h-8 w-8">
                                 <AvatarFallback>{initials}</AvatarFallback>
@@ -46,7 +45,7 @@ export function NavAccount() {
                     </PopoverTrigger>
                     <PopoverContent side="right" align="end" className="w-48 p-1">
                         <div
-                            className="flex items-center gap-2 px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-sm"
+                            className="flex items-center gap-2 px-2 py-1.5 text-sm cursor-default hover:bg-accent hover:text-accent-foreground rounded-sm"
                             onClick={() => { window.location.href = "/logout"; }}
                         >
                             <LogOut className="h-4 w-4" />
