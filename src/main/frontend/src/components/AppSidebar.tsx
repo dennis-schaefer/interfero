@@ -7,6 +7,7 @@ import {
     SidebarHeader,
 } from "@/components/ui/sidebar"
 import { ClusterSelector } from "@/features/clusters/ClusterSelector.tsx"
+import { NavAccount } from "@/features/security/NavAccount.tsx"
 
 export function AppSidebar() {
     return (
@@ -18,7 +19,9 @@ export function AppSidebar() {
                 <SidebarGroup />
                 <SidebarGroup />
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter>
+                <NavAccount />
+            </SidebarFooter>
         </Sidebar>
     )
 }
