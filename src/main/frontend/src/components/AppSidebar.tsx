@@ -11,7 +11,7 @@ import { NavAccount } from "@/features/security/NavAccount.tsx"
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible={"icon"}>
+        <Sidebar collapsible={"icon"} variant={"inset"}>
             <SidebarHeader>
                 <ClusterSelector />
             </SidebarHeader>
