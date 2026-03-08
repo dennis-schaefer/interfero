@@ -1,18 +1,26 @@
 
 import { useGetAllClusterInfo } from "@/api/endpoints/cluster-controller.ts";
 import { useClusterStore } from "@/stores/useClusterStore.ts";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel    , SelectTrigger, SelectValue } from "@/components/ui/select.tsx";
 import ClusterImage from "@/features/clusters/ClusterImage.tsx";
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar.tsx";
 import { useSidebar } from "@/components/ui/sidebar.tsx";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu.tsx";
 import { useEffect } from "react";
-import { Plus } from "lucide-react";
+import {Check, ChevronsUpDown, Plus} from "lucide-react";
 import { useNavigate } from "react-router";
 
 export function ClusterSelector() {
     const { data: clusters, isLoading } = useGetAllClusterInfo();
     const { selectedClusterId, setSelectedClusterId } = useClusterStore();
-    const { state, isMobile } = useSidebar();
-    const isCollapsed = state === "collapsed";
+    const { isMobile } = useSidebar();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,59 +38,78 @@ export function ClusterSelector() {
     }
 
     return (
-        <Select value={selectedClusterId || ""} onValueChange={setSelectedClusterId}>
-            <SelectTrigger className={`min-h-12 bg-transparent! hover:bg-accent! border-none focus:ring-0 [&>svg]:transition-transform [&>svg]:duration-200 data-popup-open:[&>svg]:-rotate-90 ${isCollapsed ? "min-h-8 w-8 p-0 justify-center *:data-[slot=select-value]:contents [&_svg.text-muted-foreground]:hidden" : "w-full p-2"}`}>
-                <SelectValue placeholder="Select Cluster">
-                    {selectedCluster && (
-                        <div className="flex items-center gap-2 overflow-hidden">
-                            <div className="h-8 w-8 shrink-0">
-                                <ClusterImage
-                                    icon={selectedCluster.icon}
-                                    color={selectedCluster.color}
-                                    className="text-sm p-1"
-                                />
-                            </div>
-                            {!isCollapsed && (
-                                <div className="flex flex-col items-start truncate text-left min-w-0 flex-1">
-                                    <span className="font-medium truncate text-sm w-full">{selectedCluster.displayName}</span>
-                                    <span className="text-xs text-muted-foreground truncate w-full">{selectedCluster.internalName}</span>
-                                </div>
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <DropdownMenu>
+                    <DropdownMenuTrigger className={"w-full"}>
+                        <SidebarMenuButton
+                            size="lg"
+
+                        >
+                            {selectedCluster && (
+                                <>
+                                    <div className="flex aspect-square size-8">
+                                        <ClusterImage
+                                            icon={selectedCluster.icon}
+                                            color={selectedCluster.color}
+                                            className="size-8"
+                                        />
+                                    </div>
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-medium">{selectedCluster.displayName}</span>
+                                        <span className="truncate text-xs text-muted-foreground">{selectedCluster.internalName}</span>
+                                    </div>
+                                </>
                             )}
-                        </div>
-                    )}
-                </SelectValue>
-            </SelectTrigger>
-            <SelectContent className="min-w-48" side={isMobile ? "bottom" : "right"} alignItemWithTrigger={false}>
-                <SelectGroup>
-                    <SelectLabel>Clusters</SelectLabel>
-                    {clusters?.map((cluster) => (
-                        <SelectItem key={cluster.clusterId} value={cluster.clusterId || "unknown"}>
-                            <div className="flex items-center gap-2">
-                                <div className="h-8 w-8 shrink-0">
-                                    <ClusterImage
-                                        icon={cluster.icon}
-                                        color={cluster.color}
-                                        className="text-sm p-1"
-                                    />
-                                </div>
-                                <div className="flex flex-col items-start text-left">
-                                    <span className="font-medium text-sm">{cluster.displayName}</span>
-                                    <span className="text-xs text-muted-foreground">{cluster.internalName}</span>
-                                </div>
-                            </div>
-                        </SelectItem>
-                    ))}
-                </SelectGroup>
-                <SelectGroup>
-                    <div
-                        className="flex items-center gap-2 px-2 py-1.5 text-sm text-muted-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-sm"
-                        onClick={() => navigate("/clusters/create")}
+                            <ChevronsUpDown className="ml-auto" />
+                        </SidebarMenuButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                        className="min-w-56 rounded-lg"
+                        side={isMobile ? "bottom" : "right"}
+                        align="start"
+                        sideOffset={4}
                     >
-                        <Plus className="h-4 w-4" />
-                        <span>Add Cluster</span>
-                    </div>
-                </SelectGroup>
-            </SelectContent>
-        </Select>
+                        <DropdownMenuGroup>
+                            <DropdownMenuLabel className="text-muted-foreground text-xs">
+                                Clusters
+                            </DropdownMenuLabel>
+                            {clusters?.map((cluster) => (
+                                <DropdownMenuItem
+                                    key={cluster.clusterId}
+                                    onClick={() => cluster.clusterId && setSelectedClusterId(cluster.clusterId)}
+                                    className="gap-3 p-2"
+                                >
+                                    <div className="flex size-7.5 shrink-0 items-center justify-center">
+                                        <ClusterImage
+                                            icon={cluster.icon}
+                                            color={cluster.color}
+                                            className="size-7.5"
+                                        />
+                                    </div>
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-medium">{cluster.displayName}</span>
+                                        <span className="truncate text-xs text-muted-foreground">{cluster.internalName}</span>
+                                    </div>
+                                    {selectedClusterId === cluster.clusterId && (
+                                        <Check/>
+                                    )}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem
+                                className="gap-2 p-2 text-muted-foreground"
+                                onClick={() => navigate("/clusters/create")}
+                            >
+                                <Plus className="size-4" />
+                                <span className=" font-medium">Add Cluster</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </SidebarMenuItem>
+        </SidebarMenu>
     );
 }
