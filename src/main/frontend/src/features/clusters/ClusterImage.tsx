@@ -70,8 +70,8 @@ export default function ClusterImage({ icon, color, className, editable = false,
             onMouseEnter={() => editable && setIsHovered(true)}
             onMouseLeave={() => editable && setIsHovered(false)}
         >
-            <AspectRatio ratio={1} className={"p-2"}>
-                <div style={{ "backgroundColor": color }} className={cn("min-w-10 min-h-10 rounded-lg shadow-lg flex items-center justify-center", className)}>
+            <AspectRatio ratio={1}>
+                <div style={{ "backgroundColor": color }} className={cn("h-full w-full rounded-lg shadow-lg flex items-center justify-center", className)}>
                     {iconMap[icon] || iconMap["app-window"]}
                 </div>
             </AspectRatio>

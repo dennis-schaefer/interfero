@@ -1,12 +1,13 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashboardPage from "./pages/DashboardPage.tsx";
-import {AuthProvider} from "@/features/security/AuthProvider.tsx";
-import {ProtectedPage} from "@/features/security/ProtectedPage.tsx";
+import { AuthProvider } from "@/features/security/AuthProvider.tsx";
+import { ProtectedPage } from "@/features/security/ProtectedPage.tsx";
 import LoginPage from "@/pages/LoginPage.tsx";
-import {useEffect} from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import SetupLayout from "@/layouts/SetupLayout.tsx";
 import ClusterSetupPage from "@/pages/ClusterSetupPage.tsx";
+import MainLayout from "@/layouts/MainLayout.tsx";
 
 const router = createBrowserRouter([
     {
@@ -19,16 +20,17 @@ const router = createBrowserRouter([
             },
             {
                 path: "setup",
-                element: <ProtectedPage><ClusterSetupPage/></ProtectedPage>
+                element: <ProtectedPage><ClusterSetupPage /></ProtectedPage>
             }
         ]
     },
     {
         path: "/",
+        Component: MainLayout,
         children: [
             {
                 index: true,
-                element: <ProtectedPage><DashboardPage /></ProtectedPage>
+                element: <DashboardPage />
             }
         ]
     },
@@ -43,7 +45,7 @@ export default function App() {
 
     return (
         <AuthProvider>
-            <RouterProvider router={router}/>
+            <RouterProvider router={router} />
         </AuthProvider>
     )
 }

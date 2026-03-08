@@ -22,7 +22,12 @@ export default defineConfig({
                         return '/login';
                     }
                 }
-            }
+            },
+            '/logout': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                secure: false
+            },
         }
     },
     build: {
